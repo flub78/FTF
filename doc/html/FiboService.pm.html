@@ -1,0 +1,170 @@
+
+<html>
+<head>
+<title>FiboService.pm</title>
+<meta name="generator" content="perl2html 0.9.2">
+<meta name="date" content="2010-10-28T12:18:35+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+<pre width="80"><font color="#B22222"># ----------------------------------------------------------------------------</font>
+<font color="#B22222"># Title: Class FiboService</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Source - &lt;file:../FiboService.pm.html&gt;</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Name:</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    package FiboService</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Abstract:</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    This is an example of TCP/IP client connections. Each time that</font>
+<font color="#B22222">#    a client is accepted a connection is created to handle it.</font>
+<font color="#B22222"># ----------------------------------------------------------------------------</font>
+<font color="#4169E1">package FiboService;</font>
+
+<font color="#4169E1">use strict;</font>
+<font color="#4169E1">use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);</font>
+
+<font color="#4169E1">use Events::Socket;</font>
+<font color="#4169E1">use Events::EventsManager;</font>
+<font color="#4169E1">use Data::Dumper;</font>
+
+$VERSION = 1;
+@ISA     = qw(Events::Socket);
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: _init (private)</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Initialisation of the object. Do not call directly.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub _init </font></strong>{
+<font color="#4169E1">	my</font> $Self = shift;
+
+<font color="#B22222">	# Call the parent constructor</font>
+	$Self-&gt;Events::Socket::_init(@_);
+
+<font color="#B22222">	# message queue for postponed output messages</font>
+	$Self-&gt;{<font color="#228B22">'postponed'</font>}     = [];
+	$Self-&gt;{<font color="#228B22">'timeoutNumber'</font>} = 0;
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># routine: fibo</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Compute the Fibonnaci value. Around 2 sec for fibo(30)</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub fibo </font></strong>{
+<font color="#4169E1">	my</font> $n = shift;
+
+<font color="#4169E1">	if</font> ( ( $n == 0 ) || ( $n == 1 ) ) {
+<font color="#4169E1">		return</font> 1;
+	}
+<font color="#4169E1">	else</font> {
+<font color="#4169E1">		return</font> fibo( $n - 1 ) + fibo( $n - 2 );
+	}
+}
+
+<font color="#B22222"># Callbacks</font>
+<font color="#B22222"># ---------</font>
+
+<font color="#B22222"># ----------------------------------------------------------------------------</font>
+<font color="#B22222"># method: ansynchronous_send</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    Emulate an asynchronous server. Instead of sending the message immediatly,</font>
+<font color="#B22222">#    the message is pushed in a queue that will be processed later.</font>
+<font color="#B22222">#    To avoid the first in, first out effect, message are extracted randomely from</font>
+<font color="#B22222">#    head or from tail of the queue.</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    Parameters:</font>
+<font color="#B22222">#       $msg - binary buffer truncated to a full and unique application message</font>
+<font color="#B22222"># ----------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub asynchronous_send </font></strong>{
+<font color="#4169E1">	my</font> ( $Self, $msg ) = @_;
+
+<font color="#4169E1">	push</font>( @{ $Self-&gt;{<font color="#228B22">'postponed'</font>} }, $msg );
+
+<font color="#4169E1">	if</font> ( scalar( @{ $Self-&gt;{<font color="#228B22">'postponed'</font>} } ) == 1 ) {
+<font color="#B22222">		# There is only one message in the queue</font>
+<font color="#B22222">		# start a 1 second timer</font>
+		$Self-&gt;{<font color="#228B22">'delay'</font>} = 1;
+<strong><font color="#FF0000">		Events:</font></strong>:EventsManager::registerTimer( $Self, $Self-&gt;{<font color="#228B22">'delay'</font>},
+			$Self-&gt;{<font color="#228B22">'periodic'</font>} );
+	}
+}
+
+<font color="#B22222"># ----------------------------------------------------------------------------</font>
+<font color="#B22222"># method: timeout</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    Asynchronous mode emulation. All message which have been pushed </font>
+<font color="#B22222">#    during the last second are sent in random order.</font>
+<font color="#B22222"># ----------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub timeout </font></strong>{
+<font color="#4169E1">	my</font> ($Self) = @_;
+
+	$Self-&gt;{<font color="#228B22">'timeoutNumber'</font>}++;
+	$Self-&gt;info(<font color="#228B22">"Timeout </font>$Self<font color="#228B22">-&gt;{name}"</font>);
+
+<font color="#4169E1">	my</font> $msg;
+<font color="#4169E1">	while</font> ( @{ $Self-&gt;{<font color="#228B22">'postponed'</font>} } ) {    
+<font color="#B22222">		    # randomely extract the message from head or tail</font>
+<font color="#4169E1">		if</font> ( int( rand(100) ) &gt; 50 ) {
+<font color="#B22222">			# last value</font>
+			$msg =<font color="#4169E1"> pop</font>( @{ $Self-&gt;{<font color="#228B22">'postponed'</font>} } );
+		}
+<font color="#4169E1">		else</font> {
+<font color="#B22222">			# first value</font>
+			$msg = shift( @{ $Self-&gt;{<font color="#228B22">'postponed'</font>} } );
+		}
+<font color="#B22222">		# send it</font>
+		$Self-&gt;send($msg);
+	}
+}
+
+<font color="#B22222"># ----------------------------------------------------------------------------</font>
+<font color="#B22222"># method: messageReceived</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    Callback activated when a full application message has been received.</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    Parameters:</font>
+<font color="#B22222">#       $msg - binary buffer truncated to a full and unique application message</font>
+<font color="#B22222"># ----------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub messageReceived </font></strong>{
+<font color="#4169E1">	my</font> ( $Self, $msg ) = @_;
+
+	$Self-&gt;info(<font color="#228B22">"&lt;- </font>$msg<font color="#228B22">"</font>);
+
+<font color="#4169E1">	if</font> ( $msg =~ /(\d*)/ ) {
+<font color="#4169E1">		my</font> $res = fibo($1);
+
+<font color="#B22222">		# Emulate a randomely buggy server</font>
+<font color="#4169E1">		if</font> ( $Self-&gt;{<font color="#228B22">'fail'</font>} ) {
+<font color="#4169E1">			if</font> ( int( rand(100) ) &gt; 70 ) {
+				$res += 1;
+			}
+		}
+		
+<font color="#B22222">		# Build the reply</font>
+<font color="#4169E1">		my</font> $msg = <font color="#228B22">"fibo (</font>$1<font color="#228B22">) = </font>$res<font color="#228B22">"</font>;
+		$Self-&gt;warn($msg);
+
+<font color="#B22222">		# and send it, immediatly or not</font>
+<font color="#4169E1">		if</font> ( $Self-&gt;{<font color="#228B22">'async'</font>} ) {
+			$Self-&gt;asynchronous_send(<font color="#228B22">"</font>$msg<font color="#228B22">\n"</font>);
+		}
+<font color="#4169E1">		else</font> {
+			$Self-&gt;send(<font color="#228B22">"</font>$msg<font color="#228B22">\n"</font>);
+		}
+	}
+<font color="#4169E1">	else</font> {
+<font color="#B22222">		# error, not a number</font>
+		$Self-&gt;error(<font color="#228B22">"invalid request </font>$msg<font color="#228B22">"</font>);
+	}
+}
+
+1;
+</pre>
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+
+<html>
+<head>
+<title>FiboSequence.pm</title>
+<meta name="generator" content="perl2html 0.9.2">
+<meta name="date" content="2010-10-28T12:18:35+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+<pre width="80"><font color="#B22222"># ----------------------------------------------------------------------------</font>
+<font color="#B22222"># Title:  Class FiboSequence</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Source - &lt;file:../FiboSequence.pm.html&gt;</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Abstract:</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#       Fibonnaci server test, message sequence manager.</font>
+<font color="#B22222">#       </font>
+<font color="#B22222">#       Object of this class are responsible of defining the message to send</font>
+<font color="#B22222">#       to a Fibonnaci server to test it. They are also responsible ot the control</font>
+<font color="#B22222">#       of the reply.</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#       This class has a window attributes, it is the number of messages</font>
+<font color="#B22222">#       that can be sent in advance before to wait have answers for the</font>
+<font color="#B22222">#       the previous requests.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#4169E1">package FiboSequence;</font>
+
+<font color="#4169E1">use strict;</font>
+<font color="#4169E1">use vars qw($VERSION @ISA @EXPORT);</font>
+
+<font color="#4169E1">use Sequence;</font>
+<font color="#4169E1">use Log::Log4perl;</font>
+<font color="#4169E1">use Data::Dumper;</font>
+
+$VERSION = 1;
+
+@ISA = qw(Sequence);
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># routine: fibo</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Compute the Fibonnaci value. Around 2 sec for fibo(30). This method is</font>
+<font color="#B22222"># used to check values returned by the server.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub fibo </font></strong>{
+<font color="#4169E1">	my</font> $n = shift;
+
+<font color="#4169E1">	if</font> ( ( $n == 0 ) || ( $n == 1 ) ) {
+<font color="#4169E1">		return</font> 1;
+	}
+<font color="#4169E1">	else</font> {
+<font color="#4169E1">		return</font> fibo( $n - 1 ) + fibo( $n - 2 );
+	}
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: _init (private)</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Initialisation of the object. Do not call directly.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub _init </font></strong>{
+<font color="#4169E1">	my</font> $Self = shift;
+
+	$Self-&gt;Sequence::_init(@_);
+	$Self-&gt;{<font color="#228B22">'counter'</font>} = $Self-&gt;{<font color="#228B22">'min'</font>};
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: next_message</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Returns the next message to send or undef when no message is to send.</font>
+<font color="#B22222"># Undef can be returned when the sequence is over or when the ahead message</font>
+<font color="#B22222"># window has been reached.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># This method also starts the request stop watch.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub next_message </font></strong>{
+<font color="#4169E1">	my</font> $Self = shift;
+
+    $Self-&gt;{<font color="#228B22">'Logger'</font>}-&gt;trace(<font color="#228B22">"</font>next_message<font color="#228B22">"</font>);
+    
+<font color="#B22222">	# we have reached the limit of the window</font>
+<font color="#4169E1">	if</font> ( $Self-&gt;{<font color="#228B22">'messages_sent'</font>} - $Self-&gt;{<font color="#228B22">'messages_received'</font>} &gt;
+        $Self-&gt;{<font color="#228B22">'window'</font>} ) {
+        $Self-&gt;{<font color="#228B22">'Logger'</font>}-&gt;trace(<font color="#228B22">"next_message, end of window"</font>);
+<font color="#4169E1">        return</font> undef;    
+    }
+
+<font color="#B22222">	# limit of the number of messages</font>
+<font color="#4169E1">    if</font> ( $Self-&gt;{<font color="#228B22">'messages_sent'</font>} &gt;= $Self-&gt;{<font color="#228B22">'number'</font>} ) {
+        $Self-&gt;{<font color="#228B22">'Logger'</font>}-&gt;trace(<font color="#228B22">"next_message, end of sequence"</font>);
+<font color="#4169E1">        return</font> undef;
+    }
+	$Self-&gt;{<font color="#228B22">'messages_sent'</font>}++;
+<font color="#4169E1">	my</font> $cnt = $Self-&gt;{<font color="#228B22">'counter'</font>}++;
+
+	$Self-&gt;start_request($cnt);
+<font color="#4169E1">	return</font> <font color="#228B22">"</font>$cnt<font color="#228B22">\n"</font>;
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: check_reply</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Register a received message, checks its validity, and stop the request</font>
+<font color="#B22222"># stop watch.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub check_reply </font></strong>{
+<font color="#4169E1">	my</font> ( $Self, $msg ) = @_;
+
+<font color="#4169E1">	my</font> $test = $Self-&gt;{<font color="#228B22">'test'</font>};
+	$Self-&gt;{<font color="#228B22">'messages_received'</font>}++;
+
+	chomp($msg);
+<font color="#4169E1">	my</font> ( $int, $result );
+<font color="#4169E1">	if</font> ( $msg =~ /fibo \((\d+)\) = (\d+)/ ) {
+		$int    = $1;
+		$result = $2;
+		$Self-&gt;stop_request($int);
+<font color="#4169E1">		my</font> $expected = fibo($int);
+		$test-&gt;is( $result, $expected, <font color="#228B22">"fibo(</font>$int<font color="#228B22">) = </font>$expected<font color="#228B22">"</font> );
+<font color="#4169E1">		if</font> ( $result != $expected ) {
+			$Self-&gt;{<font color="#228B22">'errors'</font>}++;
+		}
+	}
+<font color="#4169E1">	else</font> {    
+		$test-&gt;ok( 0, <font color="#228B22">"unrecognized message: </font>$msg<font color="#228B22">"</font> );
+		$Self-&gt;{<font color="#228B22">'errors'</font>}++;
+	}
+
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: is_completed</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Returns true when the sequence is completed, it means when all messages</font>
+<font color="#B22222"># to send have been sent and all expected replies have been received.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub is_completed </font></strong>{
+<font color="#4169E1">	my</font> $Self = shift;
+
+	$Self-&gt;{<font color="#228B22">'Logger'</font>}-&gt;trace(
+<font color="#228B22">"is_completed, sent=</font>$Self<font color="#228B22">-&gt;{'messages_sent'}, received=</font>$Self<font color="#228B22">-&gt;{'messages_received'}"</font>
+	);
+
+<font color="#4169E1">	return</font> 0<font color="#4169E1"> if</font> ( $Self-&gt;{<font color="#228B22">'messages_sent'</font>} != $Self-&gt;{<font color="#228B22">'messages_received'</font>} );
+<font color="#4169E1">	return</font> 0<font color="#4169E1"> if</font> ( $Self-&gt;{<font color="#228B22">'messages_received'</font>} &lt; $Self-&gt;{<font color="#228B22">'number'</font>} );
+	
+	$Self-&gt;{<font color="#228B22">'Logger'</font>}-&gt;trace(<font color="#228B22">"is_completed == true"</font>);
+	$Self-&gt;stop_sequence();
+<font color="#4169E1">	return</font> 1;
+}
+
+1;
+</pre>
+</body>
+
+</html>

@@ -1,0 +1,569 @@
+# ----------------------------------------------------------------------------
+# Title:  Encoder
+#
+# File - Tcl/Encoder.pm
+# Version - 1.0
+#
+#
+# Abstract:
+#
+#       Perl binding to the Tcl encoder module. This module support binary
+#       messages generation and analysis driven by a formal protocol
+#       specification. It is a kind of super pack/unpack module but with
+#       more high level type support.
+#
+#       See the Tcl module documentation for details.
+#
+# Comment:
+#
+#       This module existed in Tcl prior the migration of the Test tools
+#       in Perl. It require the Tcl interpretor. I intend to replace
+#       progressively the Tcl calls. When I'll be done it will be a full
+#       Perl module
+# ------------------------------------------------------------------------
+
+########################################################################
+
+package Tcl::Encoder;
+
+use strict;
+use vars qw($VERSION @ISA @EXPORT);
+
+use Exporter;
+use Log::Log4perl;
+
+use Tcl;
+use Error qw(try);
+
+$VERSION = 1;
+
+@ISA = qw(Exporter);
+
+# ------------------------------------------------------------------------
+# method: new
+#
+# Returns a new initialised object for the class.
+# ------------------------------------------------------------------------
+sub new {
+    my $Class = shift;
+    my $Self  = {};
+
+    bless( $Self, $Class );
+
+    $Self->{Logger} = Log::Log4perl::get_logger($Class);
+    $Self->{Logger}->debug("Creating instance");
+    $Self->_init(@_);
+
+    return $Self;
+}
+
+# ------------------------------------------------------------------------
+# method: _init (private)
+#
+# Initialisation of the object. Do not call directly.
+# ------------------------------------------------------------------------
+sub _init {
+    my $Self = shift;
+    my $log  = $Self->{Logger};
+
+    # Initialisation
+    my $tcl = new Tcl;
+    my $res = $tcl->Init();
+    $tcl->Eval("package require tlv_messages");
+    $tcl->Eval("package require encoder");
+    $tcl->Eval("namespace import encoder::*");
+    $Self->{tcl} = $tcl;
+
+    $log->debug("Tcl interpretor initalization = ");
+}
+
+# ------------------------------------------------------------------------
+# method: Eval
+#
+# Eval Tcl string in the encoder context
+# ------------------------------------------------------------------------
+sub Eval {
+    my $Self = shift;
+    my $log  = $Self->{Logger};
+
+    my $str = shift;
+    my $tcl = $Self->{tcl};
+
+    $log->info("Eval " . $str);
+    return $tcl->Eval($str);
+}
+
+# ------------------------------------------------------------------------
+# method: EvalFile
+#
+# Eval Tcl file in the encoder context
+# ------------------------------------------------------------------------
+sub EvalFile {
+    my $Self = shift;
+    my $log  = $Self->{Logger};
+
+    my $filename = shift;
+    my $tcl      = $Self->{tcl};
+
+    $log->info( "EvalFile " . $filename );
+    return $tcl->EvalFile($filename);
+}
+
+# ------------------------------------------------------------------------
+# method: declareType
+#
+# declare a type, associate a name and a definition
+# See the protocol defintion reference for accepted syntax.
+#
+# Parameters:
+# name - Name of the defined type
+# definition - Definition of the defined type
+#
+# Example:
+# (start code)
+# declareType Load_Global_Keys {
+#     CID	                byte	     =  0xC4
+#     TABLE_ID	        unsigned16
+#     Category	byte
+#
+#     if {$value(Category) == 6} {
+#         NbOfSegId        byte
+#         SegId	         Global_Seg_Id_Elt\[NbOfSegId\]
+#     }
+# }
+# (end code)
+# ------------------------------------------------------------------------
+sub declareType {
+    my $Self = shift;
+    my ( $name, $definition ) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    my $res = $tcl->call( 'declareType', $name, $definition );
+    $log->info( "declareType " . $name );
+    return $res;
+}
+
+# ------------------------------------------------------------------------
+# method: isDefined
+# Check if a type is known
+#
+# Parameters:
+# type - Name of the type to check
+#
+# Returns: 1 when the type is known, else 0.
+# ------------------------------------------------------------------------
+sub isDefined {
+    my $Self = shift;
+    my ($name) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    my $res = $tcl->call( 'isDefined', $name );
+    $log->info( "isDefined " . $name );
+    return $res;
+}
+
+# --------------------------------------------------------------------
+# function: binary_encode
+# Encode an hexadecimal string into binary format
+#
+# Parameters:
+# hexa_string _ unbounded hexadecimal string
+#              Ex: "0003DEADBEEF0034"
+#
+# return:      The encoded binary message
+# --------------------------------------------------------------------
+sub binary_encode {
+    my $Self = shift;
+
+    my ($hexa_string) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    my $res = $tcl->call( 'binary_encode', $hexa_string );
+    $log->info( "binary_encode " . $hexa_string );
+    return $res;
+}
+
+# ------------------------------------------------------------------------
+# method: typeDef
+# Check if a type is known
+#
+# Parameters:
+# type - Name of the type to check
+#
+# Returns: 1 when the type is known, else 0.
+# ------------------------------------------------------------------------
+sub typeDef {
+    my $Self = shift;
+    my ($name) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    my $res = $tcl->call( 'isDefined', $name );
+    $log->info( "isDefined " . $name );
+    return $res;
+}
+
+# ------------------------------------------------------------------------
+# method: encode
+# Encode a value or a list of value according to a type.
+# See protocol definitions for the accepted values.
+#
+# This Perl version accept several kind of values:
+#     scalar integer - for integer values
+#     Tcl list without brackets - Interpreted by Tcl
+#     a Perl reference to a list - The list is translated into Tcl list
+#     a Perl reference to hash - not yet supported.
+#
+# Tcl list must not contain the external brackets but can contain brackets for
+# sub components.
+#
+# For Perl programmers the most natural syntax is certainly to pass references
+# to arrays and hashs, but this feature require additional work. 
+#
+# Parameter:
+# type - defined the message layout
+# value - value can be either a scalar or a reference to a hash or array.
+#
+# return: A binary buffer containing the encoded message
+#
+# Example:
+# (start code)
+#    my $valList = 'CA_DRM_ID       0x0001   
+#            SOPFlag                0x02
+#            CADRMAddress           0x03030303
+#            CADRMPort              0x0404   
+#            CommBufferSize         0x0505   
+#            CommTimeout            0x0606   
+#            CommMaxRetries         0x07     
+#            MaxConnectionInterval  0x08080808
+#            RenewalMinRetryPeriod  0x0909
+#            RenewalMaxRetryPeriod  0x0A0A
+#            NotifMinRetryPeriod    0x0B0B
+#            NotifMaxRetryPeriod    0x0C0C
+#            TABLE_ID                   {0x0123 0x4567 0x89AB}';
+#            
+#    $res = $enc->encode ('Load_CA_DRM_Configuration', $valList);
+#
+# (end code)
+#
+# TODO: interpret hash reference for encode method.
+# ------------------------------------------------------------------------
+sub encode {
+    my $Self = shift;
+
+    my ( $type, $value ) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    my $res;
+
+    if ( ref($value) eq "HASH" ) {
+        print "value is a reference to a hash.\n";
+        foreach my $key (keys(%{$value})) {
+            print "$key => $value->{$key}\n";
+        }
+    }
+    elsif ( ref($value) eq "ARRAY" ) {
+        # print "value is a reference to an array.\n";
+        my $list = "";
+        foreach my $elt ( @{$value} ) {
+            $list .= "$elt ";
+        }
+        eval {    
+            $res = $tcl->call( 'encode', $type, $list );
+            $log->info("encoding success");
+        };
+    }
+    else {
+        # print "value is a scalar\n";
+        eval {    
+            $res = $tcl->call( 'encode', $type, $value );
+            $log->info("encoding success");
+        };
+    }
+
+    if ($@) {
+        $log->warn("Error caught in Encoder.pm: $@\n");
+        die $@;
+    }
+
+    $log->info( "encoding " . $type . " " . $value );
+
+    return $res;
+}
+
+# ------------------------------------------------------------------------
+# method: binary_decode return an hexadecimal string
+#
+# Hexadecimal dump of the variable
+#
+# parameters:
+# type - Type in which to encode
+# value - Value to encode
+#
+# return: hexadecimal string
+# ------------------------------------------------------------------------
+sub binary_decode {
+    my $Self = shift;
+
+    my ($msg) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    my $res = $tcl->call( 'binary_decode', $msg );
+    $log->info( "binary_decode " . $res );
+    return $res;
+}
+
+# ------------------------------------------------------------------------
+# method: decode
+# analyse a binary message according to a type and
+#         The returned format
+#         is a hash table with the following values. This hash table
+#         is compatible with a tcl array.
+#
+# (start code)
+#
+#         result(error)    = 0 when successful
+#         result(structure)    = scalar | list | record
+#         result(type)     = store the type
+#         result(numberOf) = 1 for scalar types, the number of element
+#                            for a list, the number of fields for record
+#         result(size)     = size in byte of the decoded area
+#         result(raw)      = raw value
+#         result(number)   = for a list the number of element
+#
+#         result(value)
+#             for scalar:  = the decoded value
+#             for list:    = decoded field at index
+#             for record:  = decoded field
+# (end code)
+#
+# Return: A message descriptor.
+#
+# Example:
+#         array set result \[decode $typename $raw_msg\]
+#
+# ------------------------------------------------------------------------
+sub decode {
+    my $Self = shift;
+
+    my ( $type, $msg ) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+    $log->info( "decoding " . $type );
+
+    return $tcl->call( 'decode', $type, $msg );
+}
+
+# ------------------------------------------------------------------------
+# method: structureOf
+# Asks for the sructure of a message (scalar, list or record)
+#
+# Parameters:
+# decoded - A decoded message (result of the decode method)
+#
+# returns:
+# scarlar, list or record
+# ------------------------------------------------------------------------
+sub structureOf {
+    my $Self = shift;
+
+    my ($decoded) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    return $tcl->call( 'structureOf', $decoded );
+}
+
+# ------------------------------------------------------------------------
+# method: typeOf
+# returns the type of a message.
+#
+# Parameter:
+# decoded - A decoded message (result of the decode method)
+#
+# returns:
+# The name of the type of the message.
+# ------------------------------------------------------------------------
+sub typeOf {
+    my $Self = shift;
+
+    my ($decoded) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    return $tcl->call( 'typeOf', $decoded );
+}
+
+# ------------------------------------------------------------------------
+# method: fieldValue
+# extract the value of a field from a decoded message.
+#
+# parameters:
+# decoded - A decoded message (result of the decode method)
+# fieldname - The name of the field
+# index - Optional, specifies which field you want in case of possible multiple values. Use the fieldNumber method to determine the number of existing values.
+#
+# returns:
+# The value of the field when the field is a scalar, or another decoded
+# message when the field is a compound field (list or record).
+# ------------------------------------------------------------------------
+sub fieldValue {
+    my $Self = shift;
+
+    my ( $decoded, $fieldname, $index ) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    return $tcl->call( 'fieldValue', $decoded, $fieldname, $index );
+}
+
+# ------------------------------------------------------------------------
+# method: fieldRawValue
+# returns the binary buffer of a field.
+#
+# parameters:
+# decoded - A decoded message (result of the decode method)
+# fieldname - The name of the field
+# index - Optional, specifies which field you want in case of possible multiple values. Use the fieldNumber method to determine the number of existing values.
+#
+# returns:
+# a binary buffer
+# ------------------------------------------------------------------------
+sub fieldRawValue {
+    my $Self = shift;
+
+    my ( $decoded, $fieldname, $index ) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    return $tcl->call( 'fieldRawValue', $decoded, $fieldname, $index );
+}
+
+# ------------------------------------------------------------------------
+# method: fieldList
+# returns a list of fields present in a message. This list can differ from
+# list of acceptable fields of a type because of the optional fields or
+# incomplete messages.
+#
+# parameters:
+# decoded - A decoded message (result of the decode method)
+#
+# return:
+# The field list
+# ------------------------------------------------------------------------
+sub fieldList {
+    my $Self = shift;
+
+    my ($decoded) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    return $tcl->call( 'decode', $decoded );
+}
+
+# ------------------------------------------------------------------------
+# method: fieldNumber
+# Returns 1 for scalar messages, the number of elements for list type and
+# the number of fields matching the field name for records.
+#
+# Parameters:
+# decoded - A decoded message (result of the decode method)
+# fieldname - The name of the field
+#
+# return:
+# An integer value.
+# ------------------------------------------------------------------------
+sub fieldNumber {
+    my $Self = shift;
+
+    my ( $decoded, $fieldname ) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    return $tcl->call( 'fieldNumber', $decoded, $fieldname );
+}
+
+# ------------------------------------------------------------------------
+# method: dump
+# returns a symbolic string describing the content of a decoded message.
+#
+# Parameters:
+# decoded_msg - A decoded message (result of the decode method)
+# level - The routine is reccursive and call itself while incrementing level for indentation. External users should always call it with the default level.
+# name - Field name, used internally for record. External users should not worry about it.
+#
+# returns:
+# An ASCII string
+#
+# Example of return:
+# (start code)
+# CDMSG {
+#   OE_KEY_ANS_MSG = OE_KEY_ANS_MSG {
+#      Tag = 0x31
+#      Length = 0x48
+#      TR_NUMBER = TR_NUMBER_Parameter {
+#         Tag = 0x04
+#         Length = 0x04
+#         TR_NUMBER = 0x0000
+#      }
+#      MOP = MOP_Parameter {
+#         Tag = 0x01
+#         Length = 0x02
+#         MOP = 0x02
+#      }
+#      ACK_STATUS = ACK_STATUS_Parameter {
+#         Tag = 0x0A
+#         Length = 0x04
+#         ACK_STATUS = 0x00
+#         Description = ""
+#      }
+#      COUNTER = COUNTER_Parameter {
+#         Tag = 0x02
+#         Length = 0x04
+#         COUNTER = 0x52341238
+#      }
+#      OE_BLOCK = OE_BLOCK_Parameter {
+#         Tag = 0x0F
+#         Length = 0x26
+#         NUMBER = 0x01
+#         OE_LIST =
+#            OE_LIST[1] = OE_Elt {
+#               OE_PERIOD = 0x0003
+#               KEY = 00020000000310341238000000000000
+#               PAD = 00020000000320341238000000000000
+#            }
+#      }
+#   }
+# }
+# (end code)
+# ------------------------------------------------------------------------
+sub dump {
+    my $Self = shift;
+
+    my ($decoded) = @_;
+
+    my $log = $Self->{Logger};
+    my $tcl = $Self->{tcl};
+
+    return $tcl->call( 'dump', $decoded );
+}
+
+1;

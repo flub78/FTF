@@ -1,0 +1,2 @@
+perl poe_tcp_bin_server.pl -binary
+

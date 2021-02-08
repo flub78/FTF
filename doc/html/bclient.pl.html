@@ -1,0 +1,233 @@
+
+<html>
+<head>
+<title>bclient.pl</title>
+<meta name="generator" content="perl2html 0.9.2">
+<meta name="date" content="2011-01-21T14:30:33+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+<pre width="80"><font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># Title:  Blocking TCP/IP Client Template</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Source - &lt;file:../bclient.pl.html&gt;</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Abstract:</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    Client for the Fibonacci server. This client uses blocking</font>
+<font color="#B22222">#    IOs. It is the simplest way to access a server but this method</font>
+<font color="#B22222">#    can only be used if you access sockets and file descriptor</font>
+<font color="#B22222">#    sequentialy.</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    This template checks the received values. The -fail option</font>
+<font color="#B22222">#    of the ServerTemplate can be used to generates random</font>
+<font color="#B22222">#    errors.</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    The standard services are managed by the Network library.</font>
+<font color="#B22222"># </font>
+<font color="#B22222"># Usage:</font>
+<font color="#B22222"># (Start code)</font>
+<font color="#B22222"># Blocking TCP/IP Client template.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># This script is a simple example of TCP/IP client that you can</font>
+<font color="#B22222"># customize to your needs. By default, it send requests to the Fibonnacci server.</font>
+<font color="#B22222"># It is a sequential simple client which can only connect to one server at a time.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># usage: perl client.pl [options]</font>
+<font color="#B22222">#        -verbose         flag    switch on verbose mode.</font>
+<font color="#B22222">#        -min             string  First value</font>
+<font color="#B22222">#        -match           array   Keywords, execute the matching parts, (default all)</font>
+<font color="#B22222">#        -max             string  max value</font>
+<font color="#B22222">#        -requirements    array   Requirements covered by the test</font>
+<font color="#B22222">#        -directory       string  Logs and result directory</font>
+<font color="#B22222">#        -outputDirectory string  directory for outputs</font>
+<font color="#B22222">#        -host            string  Server (host:port) to connect to. ":port" accepted for localhost</font>
+<font color="#B22222">#        -memory          flag    checks the memory usage.</font>
+<font color="#B22222">#        -synopsis        string  test short description</font>
+<font color="#B22222">#        -skip            array   Keyword, skip the matching parts (default none)</font>
+<font color="#B22222">#        -pid             string  pid of the process to monitor</font>
+<font color="#B22222">#        -iteration       string  number of test iteration.</font>
+<font color="#B22222">#        -help            flag    display the online help.</font>
+<font color="#B22222">#        -testId          string  test identificator. (default = script basename)</font>
+<font color="#B22222">#        -performance     flag    displays execution time.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Examples:</font>
+<font color="#B22222">#    to run the script as a Fibonnaci client on localhost, port 2345:</font>
+<font color="#B22222">#    perl bclient.pl -host :2345</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    bclient does not support simulataneous connections</font>
+<font color="#B22222"># (end)</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#4169E1">package BlockingClientTemplate;</font>
+
+<font color="#4169E1">use strict;</font>
+use 5.010;
+<font color="#4169E1">use warnings;</font>
+use lib <font color="#228B22">"</font>$ENV<font color="#228B22">{'FTF'}/lib"</font>;
+use lib <font color="#228B22">"</font>$ENV<font color="#228B22">{'FTF'}/templates"</font>;
+<font color="#4169E1">use vars qw($VERSION @ISA @EXPORT);</font>
+<font color="#4169E1">use Exporter;</font>
+<font color="#4169E1">use Test;</font>
+
+$VERSION = 1;
+@ISA     = qw(Test);
+
+<font color="#4169E1">use Data::Dumper;</font>
+<font color="#4169E1">use ExecutionContext;</font>
+<font color="#4169E1">use ScriptConfiguration;</font>
+
+<font color="#4169E1">use Network::Client;</font>
+<font color="#4169E1">use CODECs::Telnet;</font>
+
+<font color="#4169E1">my</font> $defaultPort = 1234;
+
+<font color="#B22222"># ########################################################################</font>
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># routine: fibo</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Compute the Fibonnaci value. Around 2 sec for fibo(30)</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub fibo </font></strong>{
+<font color="#4169E1">    my</font> $n = shift;
+
+<font color="#4169E1">    if</font> ( ( $n == 0 ) || ( $n == 1 ) ) {
+<font color="#4169E1">        return</font> 1;
+    }
+<font color="#4169E1">    else</font> {
+<font color="#4169E1">        return</font> fibo( $n - 1 ) + fibo( $n - 2 );
+    }
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># routine: call</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># call a server and send some Finonacci requests</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Parameters:</font>
+<font color="#B22222">#    $host - server hostname</font>
+<font color="#B22222">#    $port - server port</font>
+<font color="#B22222">#    $nb   - number of request to send</font>
+<font color="#B22222">#    $coef - used to compute the input parameter from the index</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub call </font></strong>{
+<font color="#4169E1">    my</font> ( $Self, $host, $port, $min, $max ) = @_;
+
+    $Self-&gt;info(<font color="#228B22">"connecting to </font>$host<font color="#228B22">:</font>$port<font color="#228B22">\n"</font>);
+
+<font color="#4169E1">    my</font> $codec = new CODECs::Telnet;
+
+<font color="#4169E1">    my</font> $sock = new Network::Client(
+        PeerAddr =&gt; $host,
+        PeerPort =&gt; $port,
+        Proto    =&gt; <font color="#228B22">'tcp'</font>,
+        codec    =&gt; $codec
+    );
+
+<font color="#4169E1">    for</font> (<font color="#4169E1"> my</font> $i = $min ; $i &lt;= $max ; $i++ ) {
+
+        $sock-&gt;send( $i . <font color="#228B22">"\n"</font> );
+<font color="#4169E1">        my</font> $msg = $sock-&gt;receive();
+
+<font color="#4169E1">        my</font> $expected = fibo($i);
+        chomp($msg);
+<font color="#4169E1">        my</font> $fibo;
+<font color="#4169E1">        if</font> ( $msg =~ /fibo \(\d+\) = (\d+)/ ) {
+            $fibo = $1;
+        }
+        $Self-&gt;ok( $fibo eq $expected,
+            <font color="#228B22">"server Fibonacci (</font>$i<font color="#228B22">) = </font>$expected<font color="#228B22">, received \"</font>$fibo<font color="#228B22">\""</font> );
+
+        say(<font color="#228B22">"remote fib(</font>$i<font color="#228B22">) = </font>$fibo<font color="#228B22">"</font>);
+    }
+
+    $sock-&gt;close();
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># routine: run</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#  Scrip main method.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub TestMain </font></strong>{
+<font color="#4169E1">    my</font> $Self = shift;
+
+<font color="#4169E1">    my</font> $host = $Self-&gt;{<font color="#228B22">'config'</font>}-&gt;value(<font color="#228B22">'host'</font>);
+<font color="#4169E1">    my</font> $min  = $Self-&gt;{<font color="#228B22">'config'</font>}-&gt;value(<font color="#228B22">'min'</font>);
+<font color="#4169E1">    my</font> $max  = $Self-&gt;{<font color="#228B22">'config'</font>}-&gt;value(<font color="#228B22">'max'</font>);
+
+    $host = <font color="#228B22">"localhost:</font>$defaultPort<font color="#228B22">"</font><font color="#4169E1"> unless</font>($host);
+    
+<font color="#4169E1">    if</font> ( $host =~ /(.*):(\d*)/ ) {
+<font color="#4169E1">        my</font> $hostid = $1 ? $1 : <font color="#228B22">"</font>localhost<font color="#228B22">"</font>;
+<font color="#4169E1">        my</font> $port   = $2 ? $2 : $defaultPort;
+
+        $Self-&gt;call( $hostid, $port, $min, $max );
+    }
+<font color="#4169E1">    else</font> {
+        die <font color="#228B22">"bad host:port (</font>$host<font color="#228B22">)"</font>;
+    }
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># On line help and options.</font>
+<font color="#4169E1">my</font> $help_header = <font color="#228B22">'Blocking TCP/IP Client template.
+
+This script is a simple example of TCP/IP client that you can
+customize to your needs. By default, it send requests to the Fibonnacci server. 
+It is a sequential simple client which can only connect to one server at a time.
+
+usage: perl client.pl [options]'</font>;
+
+<font color="#4169E1">my</font> $help_footer = <font color="#228B22">"
+Examples:
+    to run the script as a Fibonnaci client on localhost, port 2345:
+    perl bclient.pl -host :2345
+    
+    bclient does not support simulataneous connections
+"</font>;
+
+<font color="#B22222"># If you specify a configuration file, it must exist.</font>
+<font color="#4169E1">my</font> $config = new ScriptConfiguration(
+    <font color="#228B22">'header'</font>     =&gt; $help_header,
+    <font color="#228B22">'footer'</font>     =&gt; $help_footer,
+    <font color="#228B22">'scheme'</font>     =&gt; TEST,
+    <font color="#228B22">'parameters'</font> =&gt; {
+        host =&gt; {
+            type =&gt; <font color="#228B22">"</font>string<font color="#228B22">"</font>,
+            description =&gt;
+<font color="#228B22">"Server (host:port) to connect to. \":port\" accepted for localhost"</font>
+        },
+        min =&gt; {
+            type        =&gt; <font color="#228B22">"</font>string<font color="#228B22">"</font>,
+            description =&gt; <font color="#228B22">"First value"</font>,
+            default     =&gt; <font color="#228B22">"1"</font>
+        },
+        max =&gt; {
+            type        =&gt; <font color="#228B22">"</font>string<font color="#228B22">"</font>,
+            description =&gt; <font color="#228B22">"max value"</font>,
+            default     =&gt; <font color="#228B22">"30"</font>
+        },
+    },
+<font color="#B22222">    #    'configFile' =&gt; $configFile</font>
+);
+
+<font color="#B22222"># To customize: replace by your package name</font>
+<font color="#4169E1">my</font> $script = new BlockingClientTemplate(
+    testId       =&gt; $config-&gt;value(<font color="#228B22">'testId'</font>),
+    synopsis     =&gt; $config-&gt;value( <font color="#228B22">"</font>synopsis<font color="#228B22">"</font> ),
+    config       =&gt; $config,
+    loggerName   =&gt; <font color="#228B22">"</font>Test<font color="#228B22">"</font>,
+    iteration    =&gt; $config-&gt;value(<font color="#228B22">'iteration'</font>),
+    match        =&gt; $config-&gt;value(<font color="#228B22">'match'</font>),
+    skip         =&gt; $config-&gt;value(<font color="#228B22">'skip'</font>),
+    memory       =&gt; $config-&gt;value(<font color="#228B22">'memory'</font>),
+    pid          =&gt; $config-&gt;value(<font color="#228B22">'pid'</font>),
+    performance  =&gt; $config-&gt;value(<font color="#228B22">'performance'</font>)
+);
+$script-&gt;run();
+</pre>
+</body>
+
+</html>

@@ -1,0 +1,376 @@
+Title: Protocol Grammar
+
+WORK IN PROGRESS ... WORK IN PROGRESS ... WORK IN PROGRESS 
+
+This grammar is inspired from a previous work, the Tcl test framework.
+See the "Protocol Management and parsing" reference document to get background
+information about this work.
+
+Primary design principles:
+- The grammar to specify a protocol must be as simple and as natural as 
+possible. It succesful the appraoch should lead to protocol specification usable as protocol external documentation. The Tcl implementation was quite close but it still can be improved.
+
+Secondary design principle:
+- A better object design than the Tcl approach should allow the user to add new basic types without internal knowledge of the module.
+
+Points to improve compared to the Tcl implementation:
+
+- There was some annoying significant spaces and carriage returns.
+
+- There was some limitations on expressions used as field values. Strangely enough there was none on expressions used to guard conditional fields.
+
+- The syntax to express a size was the same than to express an array. I would propose to use parenthesis to express a type size and square bracket to express an array size ??? 
+(start code)
+       unsigned(32)  # a 32 bits unsigned integer
+       byte[32]      # an array of 32 byte
+(end)
+
+
+- I need a syntax to express constraint on fields an type.
+
+(start code)
+       Tag   byte            = 0x27;
+       Month byte            range (1 .. 31);                          # interval
+       days string           into ("monday", "tuesday", "wednesday");  # list of value
+       Even_Number integer32 verify ((Even_Number % 2) == 0);          # booelan expression
+(end) 
+  
+
+
+This is the grammar used to specify protocols. It support the definition of;
+- Numerical and alpha numerical constants.
+- types for messages and sub-components
+- constraints for variable acceptable range.
+- variables for messages and sub-components.
+- expressions for constants affectation, conditions, etc.
+
+This grammar supports these types
+ 
+predefined  - char, strings, signed and unsigned integer on 8, 16, 32 bits.
+arrays      - fixez size or unbounded list of other types.
+record      - list of named fields, some may be conditionals.
+alternative - list of types that can be received
+
+There is an advantage for this grammar 
+to have the expressions in the target language format. It means that if you use the grammar
+to define a protocol used by a Perl simulator better to have
+the expression in Perl. If you use the same protocol definition to generate C++ code to
+handle the messages, better to have the expression in C++. With this approach expression are
+evaluated by the target language and can be has complex than you want.
+
+They other part, everything which is not expression evaluation is more conveniently
+express in the parser language, in our case in Perl. In this category you will find types and
+variables definitions, etc. I know that it is not a very standard approach of the
+language definition, but it makes implementation much simpler.
+
+
+#########################
+Section: Constants
+#########################
+
+It is possible to declare constants just like in computer languages.
+
+(start code)
+
+    MSG1_REQ  = 0x10;
+    MSG1_ANS  = 0x11;
+    MSG2_REQ = 0x20;
+
+    or 
+
+    constant MSG1_REQ  = 0x10;
+ 
+(end)
+
+See in the sections below how to declare constant arrays and records.
+
+
+##########################
+Section: Types Definition
+##########################
+
+Types determine how binary bitfields are interpreted. They can also be use to express
+constraints on the acceptable values.
+
+(start code)
+
+Predefined_Types = (
+	byte, char,
+	signed8, unsigned8, 
+	signed16, unsigned16, 
+	signed32, unsigned32,
+	signed64, unsigned64,
+	string);
+
+(end)
+
+
+Types derivation:
+#################
+
+They are just redefinition of existing types, eventually with additional
+constraints. See constraints.
+
+(start code)
+type myString = new string;
+type speed    = new unsigned16;
+
+or
+
+type myString is new string;
+
+or 
+
+myString = string;
+
+(end)
+
+
+Type constraints:
+#################
+
+Type can have constraints, constraint are boolean expression
+that must be true for the value in order for encoding or decoding to not
+raise any error.
+
+range constaint:
+################
+
+(start code)
+type date = {
+	day   byte = 1 .. 31,
+	month byte = 1 .. 12,
+	year  unsigned16 = 1900 .. 2048
+};
+(end)
+
+value constraint:
+#################
+
+(start code)
+type message {
+	protocol_id byte = 0x03,
+	field1 = byte,
+	field2 = byte
+};
+(end)
+
+By using boolean expression we can have constaints as complex than we which.
+
+(start code)
+# a year is a leap year if it can be divided by four except if it can be divided by 100
+# except if it can be divided by 1000.
+
+type leap_year = new unsigned16 with (
+	(($_ % 4) == 0) and (($_ % 100) != 0) or (($_ % 1000) == 0)
+);
+(end)
+
+Section: Lists
+###############
+
+List are fixed size or unbounded sequeces of elements. Elements can be scalar or compound types.
+List types can be named or be anonymous. Anonymous arrays can be
+use whereever a scalar type can be used.
+
+(start code)
+type string8 = char[8];
+(end)
+
+or
+
+(start code)
+type myString = char[];
+(end)
+
+Section: Records
+########################
+
+Records are field list with a named access to each field.
+
+(start code)
+type myRecord = {
+	  name    string8,
+	  age     byte,
+	  address string,
+	  city    string
+};
+(end)
+
+# types can be compound
+
+(start code)
+type date = {
+	day   byte,
+	month byte,
+	year  unsigned16
+};
+(end)
+
+(start code)
+type myRecord = {
+	  name      string8,
+	  age       byte,
+	  birthdate date,
+	  address   string,
+	  city      string
+};
+(end)
+
+records with conditional parts:
+
+In records fields can be conditioned by an expression, they exist only when the
+is true. Expression can contain references to fields values. In order
+to simplify the analysis, only backward references are allowed. It is not
+permitted to use a reference to a field which has not been read yet. There are 
+a set of very interesting articles on context free grammar on Wikipedia.
+
+(start code)
+declareType Remove_Keys {
+    CID	                byte	        = 0xC5
+    TABLE_ID	                unsigned16	
+    Category	          unsigned16	
+
+    if ($value(Category) == 1) {
+	BigFlag    byte
+    }     
+
+    if {$value(Category) == 2} { 
+	NbOfValues	     byte
+	BoList           BO_Elt\[NbOfValues\]
+    }     
+
+    if {$value(Category) == 3} { 
+	NbOfYears	byte
+	YearsList      Years_Elt_3\[NbOfYears\]
+    }
+}
+
+(end)
+
+length support:
+
+It is possible to specify that a field value contains a length. *Note; we have encountered 
+protocols in which the length included the size of the tag and the length itself. The grammar
+must be updated to support it.*
+
+(start code)
+declareType SocialSec_Parameter {
+    Tag          unsigned16      =   $tag(SocialSec)
+    Length	     unsigned16 	    =   @length {
+	SocialSec   hexastring\[\]
+    }
+}
+
+(end)
+
+array sizes:
+
+When a field is used as a list size, its value is automatically computed. During encoding
+the number of elements is computed from the size of the list for the array. During decoding
+the value found in number is used to determine when to stop the parsing.
+
+(start code)
+declareType T_Parameter {
+    Tag      unsigned16      =   $tag(SocialSec),
+    Number   unsigned16,
+    Array    byte\[Number\]
+}
+
+Section: Alternatives
+######################
+
+Alternative are list of types acceptable in a given context. They are usually used to express
+list of acceptable messages.
+
+(start code)
+type myAlternative = (type1 | type2 | type4);
+(end)
+
+Section: TLV support
+####################
+
+This chapter explains how to define TLV messages. TLV (Tag Length Value) is an encoding method ...
+
+(start code)
+declareType DNA_Parameter {
+    Tag          unsigned16      =   $tag(DNA)
+    Length	 unsigned16 	 =   @length {
+	DNA        hexastring\[16\]
+    }
+}
+
+test_declaration TR_NUMBER_Parameter {
+    Tag          unsigned16      =   $tag(TR_NUMBER)
+    Length	 unsigned16 	 =   @length {
+	TR_NUMBER    unsigned32
+    }
+}
+
+declareType MOP_Parameter {
+    Tag          unsigned16      =   $tag(MOP)
+    Length	 unsigned16 	 =   @length {
+	MOP          unsigned32
+    }
+}
+
+declareType DEVICE_CA_SN_Parameter {
+    Tag          unsigned16      =   $tag(DEVICE_CA_SN)
+    Length	 unsigned16 	 =   @length {
+	DEVICE_CA_SN    unsigned32
+    }
+}
+
+declareType MSG1_REQ_MSG {
+    Tag          unsigned16      =   $tag(MSG1_REQ)
+    Length	 unsigned16 	 =   @length
+    {
+	TR_NUMBER TR_NUMBER_Parameter |
+	MOP       MOP_Parameter |
+	DEVICE_CA_SN DEVICE_CA_SN_Parameter |
+        DNA     DNA_Parameter
+    } \[\]
+}
+(end)
+
+Section: Expressions
+####################
+
+Expressions are dynamically evaluated during the encoding or decoding process. They can guard optional fields or be used as field values.
+
+They can contain field values, variables and operators. They can also contain field related functions like, size, offset and value.  
+
+To simplify the implementation of the framework expressions are specified in the host language. In dynamic contexts (interpretation) expressions are evaluated by the script interpreter (Tcl or Perl). For compiled language support (Ada, Java or C++) expressions are just copied into the generated sources. The compiler will generate the code required to interpret them. With this approach you get the full expressiveness of a programming language for your expressions and you have no support to provide. The only inconvenient of the method is that the grammar becomes dependent of the host language. 
+
+Expressions could contain:
+-	Constants like 0x42, "hello", 10.3.
+-	Variables like $counter, $name, etc. Note that expressions can use global variables defined at the outermost level or local variables defined in the current context. For example, in the context of the analysis of a message with a field name counter, the counter variable will refer to the content of this field. In message context, variables can have indexes or subcomponents (tab[3] to refer to the third element of the tab array or date.year to access to the year subcomponent of the date field.
+-	Arithmetic expressions: $length + 3.
+-	Fields related functions like size(), offset(), etc.
+
+
+Section: Encoding Message Values
+#################################
+
+This section explains how to build messages of determined types. The result 
+of the operation is a binary bitfield. Eventually the values supplied cannot be
+encoded according to the given type and and error is raised. 
+
+Binary values:
+
+Symbolic values:
+
+
+Section: Access to messages Fields
+###################################
+
+This section explain how you can get access to messages components after 
+decoding according to a given type.
+
+ASCII dump:
+
+Field access:
+
+Messages and fields attributes:
+
+

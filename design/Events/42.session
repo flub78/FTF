@@ -1,0 +1,12 @@
+window_sizes 1674 988 288 1380 810 100
+diagrams
+  active  classdiagram_ref 128042 // Main
+    1104 648 100 4 0 0
+end
+show_stereotypes
+selected classdiagram_ref 128042 // Main
+open
+  class_ref 131242 // Events::EchoClient
+  class_ref 132138 // Events::UdpReader
+end
+end

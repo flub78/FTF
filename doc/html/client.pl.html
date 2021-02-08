@@ -1,0 +1,275 @@
+
+<html>
+<head>
+<title>client.pl</title>
+<meta name="generator" content="perl2html 0.9.2">
+<meta name="date" content="2010-10-28T12:18:35+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+<pre width="80"><font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># Title:  TCP/IP Client Template</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Source - &lt;file:../client.pl.html&gt;</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Abstract:</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    This script is a TCP/IP client template that uses the Events module.</font>
+<font color="#B22222">#    It is a non blocking client, which means that you can declare</font>
+<font color="#B22222">#    as many clients and servers that you want in the same script</font>
+<font color="#B22222">#    and have them scheduled by the same event loop.</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    In simple cases if you only have one client which can</font>
+<font color="#B22222">#    perform blocking operations without blocking others servers</font>
+<font color="#B22222">#    and clients it is simpler to use the &lt;BlockingClientTemplate.pl&gt;</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    The script is generic, all the actions specific to the kind of</font>
+<font color="#B22222">#    requests and reaction to replies are handled into the</font>
+<font color="#B22222">#    &lt;FiboSequence&gt; class. You can generate another client</font>
+<font color="#B22222">#    just by replacing this class.</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    This template is not the simplest one of the toolkit, I have made it really</font>
+<font color="#B22222">#    close of a real life test. It is non-blocking and you should be able to use it</font>
+<font color="#B22222">#    to test several servers at the same time.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Usage:</font>
+<font color="#B22222"># (Start code)</font>
+<font color="#B22222"># Client template.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># This script is an example of TCP/IP client that you can</font>
+<font color="#B22222"># customize to your needs. By default, it send requests to the Fibonnacci server.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># usage: perl client.pl [options]</font>
+<font color="#B22222">#        -verbose         flag    switch on verbose mode.</font>
+<font color="#B22222">#        -block_size      string  block size for sending</font>
+<font color="#B22222">#        -match           array   Keywords, execute the matching parts, (default all)</font>
+<font color="#B22222">#        -requirements    array   Requirements covered by the test</font>
+<font color="#B22222">#        -directory       string  Logs and result directory</font>
+<font color="#B22222">#        -outputDirectory string  directory for outputs</font>
+<font color="#B22222">#        -host            array   list of host:port. ":port" accepted for localhost</font>
+<font color="#B22222">#        -memory          flag    checks the memory usage.</font>
+<font color="#B22222">#        -synopsis        string  test short description</font>
+<font color="#B22222">#        -skip            array   Keyword, skip the matching parts (default none)</font>
+<font color="#B22222">#        -pid             string  pid of the process to monitor</font>
+<font color="#B22222">#        -iteration       string  number of test iteration.</font>
+<font color="#B22222">#        -help            flag    display the online help.</font>
+<font color="#B22222">#        -testId          string  test identificator. (default = script basename)</font>
+<font color="#B22222">#        -performance     flag    displays execution time.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Examples:</font>
+<font color="#B22222">#    to run the script as a Fibonnaci client on localhost, port 2345:</font>
+<font color="#B22222">#    perl client.pl -host :2345</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#    to start multiple clients</font>
+<font color="#B22222">#    perl client.pl -host :2345 -host :2346 -host :2347</font>
+<font color="#B22222"># (end)</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Logger:</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Use the "Test" logger to control the verbosity level of this script.</font>
+<font color="#B22222"># (Start code)</font>
+<font color="#B22222"># log4perl.logger.Test = ALL, Console</font>
+<font color="#B22222"># (end)</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#4169E1">package ClientTemplate;</font>
+
+<font color="#4169E1">use strict;</font>
+use lib <font color="#228B22">"</font>$ENV<font color="#228B22">{'FTF'}/lib"</font>;
+use lib <font color="#228B22">"</font>$ENV<font color="#228B22">{'FTF'}/templates"</font>;
+<font color="#4169E1">use vars qw($VERSION @ISA @EXPORT);</font>
+<font color="#4169E1">use Exporter;</font>
+<font color="#4169E1">use Test;</font>
+<font color="#4169E1">use Carp;</font>
+
+$VERSION = 1;
+@ISA     = qw(Test);
+
+<font color="#4169E1">use Data::Dumper;</font>
+<font color="#4169E1">use ExecutionContext;</font>
+<font color="#4169E1">use ScriptConfiguration;</font>
+
+<font color="#4169E1">use Events::Server;</font>
+<font color="#4169E1">use Events::ClientSequencer;</font>
+<font color="#4169E1">use FiboSequence;</font>
+<font color="#4169E1">use Events::EventsManager qw(eventLoop stopLoop after);</font>
+<font color="#4169E1">use CODECs::Telnet;</font>
+
+<font color="#4169E1">my</font> $defaultPort = 1234;
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: SetUp</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Test preparation, empty when nothing to do. Can be skipped if the</font>
+<font color="#B22222"># test context can be setup for several test executions.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub SetUp </font></strong>{
+<font color="#4169E1">    my</font> $Self = shift;
+
+    $Self-&gt;trace(<font color="#228B22">"</font>SetUp<font color="#228B22">"</font>);
+    $Self-&gt;{success}  = 0;
+    $Self-&gt;{failures} = 0;
+
+    $Self-&gt;{<font color="#228B22">'transaction_number'</font>} = 0;
+    $Self-&gt;{<font color="#228B22">'window'</font>}             = 0;
+    $Self-&gt;{<font color="#228B22">'messages_sent'</font>}      = 0;
+    $Self-&gt;{<font color="#228B22">'messages_received'</font>}  = 0;
+    $Self-&gt;{<font color="#228B22">'errors'</font>}             = 0;
+    $Self-&gt;{<font color="#228B22">'total_time'</font>}         = 0;
+    $Self-&gt;{<font color="#228B22">'max_time'</font>}           = 0;
+    $Self-&gt;{<font color="#228B22">'min_time'</font>}           = 1000000000;
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># routine: run</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#  Scrip main method.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub TestMain </font></strong>{
+<font color="#4169E1">    my</font> $Self = shift;
+
+<font color="#4169E1">    my</font> @hosts      = @{ $Self-&gt;{<font color="#228B22">'config'</font>}-&gt;value(<font color="#228B22">'host'</font>) };
+<font color="#4169E1">    my</font> $block_size = $Self-&gt;{<font color="#228B22">'config'</font>}-&gt;value(<font color="#228B22">'block_size'</font>);
+
+<font color="#4169E1">    my</font> $codec = new CODECs::Telnet();
+
+<font color="#B22222">    # creates a client for each CLI host:port parameter</font>
+<font color="#4169E1">    foreach</font><font color="#4169E1"> my</font> $host (@hosts) {
+<font color="#4169E1">        if</font> ( $host =~ /(.*):(\d*)/ ) {
+<font color="#4169E1">            my</font> $hostid = $1 ? $1 : <font color="#228B22">"</font>localhost<font color="#228B22">"</font>;
+<font color="#4169E1">            my</font> $port   = $2 ? $2 : $defaultPort;
+
+<font color="#B22222">            # service definition</font>
+<font color="#B22222">            # To customize, replace by your own sequence</font>
+<font color="#4169E1">            my</font> $min = 10;
+<font color="#4169E1">            my</font> $max = 20;
+<font color="#4169E1">            my</font> $nb  = $max - $min + 1;
+<font color="#4169E1">            my</font> $seq = new FiboSequence(
+                window =&gt; 4,
+                number =&gt; $nb,
+                min    =&gt; $min,
+                test   =&gt; $Self
+            );
+
+<font color="#4169E1">            my</font> $client = new Events::ClientSequencer(
+                loggerName =&gt; $Self-&gt;{<font color="#228B22">'loggerName'</font>},
+                codec      =&gt; $codec,
+                block_size =&gt; $block_size,
+                sequence   =&gt; $seq,
+                test       =&gt; $Self
+            );
+            die <font color="#228B22">"Cannot create client. Reason: </font>$!<font color="#228B22">\n"</font><font color="#4169E1"> unless</font> $client;
+
+            $client-&gt;connect( $hostid, $port );
+        }
+<font color="#4169E1">        else</font> {
+            die <font color="#228B22">"bad host:port (</font>$host<font color="#228B22">)"</font>;
+        }
+    }
+    eventLoop();
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: CleanUp</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Test cleanup, for example delete all the test generated files.</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub CleanUp </font></strong>{
+<font color="#4169E1">    my</font> $Self = shift;
+
+    $Self-&gt;trace(<font color="#228B22">"</font>CleanUp<font color="#228B22">"</font>);
+
+<font color="#4169E1">    my</font> $n = $Self-&gt;{<font color="#228B22">'transaction_number'</font>};
+    $Self-&gt;logScalarCounter( <font color="#228B22">"Transactions = "</font> . $n );
+
+    $Self-&gt;logScalarCounter( <font color="#228B22">"Window = "</font> . $Self-&gt;{<font color="#228B22">'window'</font>} / $n )<font color="#4169E1"> if</font> ($n);
+    $Self-&gt;logScalarCounter( <font color="#228B22">"Messages sent = "</font> . $Self-&gt;{<font color="#228B22">'messages_sent'</font>} );
+    $Self-&gt;logScalarCounter(
+        <font color="#228B22">"Messages received = "</font> . $Self-&gt;{<font color="#228B22">'messages_received'</font>} );
+    $Self-&gt;logScalarCounter( <font color="#228B22">"Errors = "</font> . $Self-&gt;{<font color="#228B22">'errors'</font>} );
+    $Self-&gt;logScalarCounter( <font color="#228B22">"Total service time = "</font> . $Self-&gt;{<font color="#228B22">'total_time'</font>} );
+    $Self-&gt;logScalarCounter(
+        <font color="#228B22">"Average service time = "</font> . $Self-&gt;{<font color="#228B22">'total_time'</font>} / $n )
+<font color="#4169E1">      if</font> ($n);
+    $Self-&gt;logScalarCounter( <font color="#228B22">"Minimal service time = "</font> . $Self-&gt;{<font color="#228B22">'min_time'</font>} )
+<font color="#4169E1">      if</font> ( $Self-&gt;{<font color="#228B22">'min_time'</font>} );
+    $Self-&gt;logScalarCounter( <font color="#228B22">"Maximal service time = "</font> . $Self-&gt;{<font color="#228B22">'max_time'</font>} )
+<font color="#4169E1">      if</font> ( $Self-&gt;{<font color="#228B22">'max_time'</font>} );
+
+<font color="#4169E1">    if</font> ( $Self-&gt;{failures} == 0 ) {
+        $Self-&gt;warn(
+<font color="#228B22">"PASSED global </font>$Self<font color="#228B22">-&gt;{testId}, success=</font>$Self<font color="#228B22">-&gt;{success}, failures=0"</font>,
+            <font color="#228B22">".Checks"</font>
+        );
+    }
+<font color="#4169E1">    else</font> {
+        $Self-&gt;error(
+<font color="#228B22">"FAILED global </font>$Self<font color="#228B22">-&gt;{testId}, success=</font>$Self<font color="#228B22">-&gt;{success}, failures=</font>$Self<font color="#228B22">-&gt;{'failures'}"</font>,
+            <font color="#228B22">".Checks"</font>
+        );
+        $Self-&gt;error(
+            <font color="#228B22">"FAILED because </font>$Self<font color="#228B22">-&gt;{testId} </font>$Self<font color="#228B22">-&gt;{'failuresReasons'}"</font>,
+            <font color="#228B22">".Checks"</font> );
+    }
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># On line help and options.</font>
+<font color="#4169E1">my</font> $help_header = <font color="#228B22">'TCP/IP Client template.
+
+This script is an example of TCP/IP client that you can
+customize to your needs. By default, it send requests to the Fibonnacci server. It is based on the events management so you can connect to
+several servers at the same time.
+
+usage: perl client.pl [options]'</font>;
+
+<font color="#4169E1">my</font> $help_footer = <font color="#228B22">"
+Examples:
+    to run the script as a Fibonnaci client on localhost, port 2345:
+    perl client.pl -host :2345
+    
+    to start multiple clients
+    perl client.pl -host :2345 -host :2346 -host :2347
+"</font>;
+
+<font color="#B22222"># If you specify a configuration file, it must exist.</font>
+<font color="#B22222">#my $configFile = ExecutionContext::configFile();</font>
+<font color="#4169E1">my</font> $config     = new ScriptConfiguration(
+    <font color="#228B22">'header'</font>     =&gt; $help_header,
+    <font color="#228B22">'footer'</font>     =&gt; $help_footer,
+    <font color="#228B22">'scheme'</font>     =&gt; TEST,
+    <font color="#228B22">'parameters'</font> =&gt; {
+        host =&gt; {
+            type        =&gt; <font color="#228B22">"</font>array<font color="#228B22">"</font>,
+            description =&gt; <font color="#228B22">"list of host:port. \":port\" accepted for localhost"</font>
+        },
+        block_size =&gt; {
+            type        =&gt; <font color="#228B22">"</font>string<font color="#228B22">"</font>,
+            description =&gt; <font color="#228B22">"block size for sending"</font>,
+            default     =&gt; 0
+        },
+    },
+<font color="#B22222">#    'configFile' =&gt; $configFile</font>
+);
+
+($config-&gt;value(<font color="#228B22">'host'</font>)) or croak <font color="#228B22">"missing host parameter"</font>;
+
+<font color="#B22222"># To customize: replace by your package name</font>
+<font color="#4169E1">my</font> $script = new ClientTemplate(
+    testId   =&gt; $config-&gt;value(<font color="#228B22">'testId'</font>),
+    synopsis =&gt; $config-&gt;value(
+        <font color="#228B22">"</font>synopsis<font color="#228B22">"</font>
+    ),
+    config       =&gt; $config,
+    loggerName   =&gt; <font color="#228B22">"</font>Test<font color="#228B22">"</font>,
+    iteration    =&gt; $config-&gt;value(<font color="#228B22">'iteration'</font>),
+    match        =&gt; $config-&gt;value(<font color="#228B22">'match'</font>),
+    skip         =&gt; $config-&gt;value(<font color="#228B22">'skip'</font>),
+    memory       =&gt; $config-&gt;value(<font color="#228B22">'memory'</font>),
+    pid          =&gt; $config-&gt;value(<font color="#228B22">'pid'</font>),
+    performance  =&gt; $config-&gt;value(<font color="#228B22">'performance'</font>)
+    );
+$script-&gt;run();
+</pre>
+</body>
+
+</html>

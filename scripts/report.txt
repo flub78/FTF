@@ -1,0 +1,42 @@
+
+Section: Tests Execution Report
+###############################
+
+
+Date                - Fri Aug 13 14:33:55 CEST 2010
+Generated on        - idefix.logiways-france.fr
+Operating system    - Linux idefix.logiways-france.fr 2.6.32.11-99.fc12.x86_64 #1 SMP Mon Apr 5 19:59:38 UTC 2010 x86_64 x86_64 x86_64 GNU/Linux
+Operator            - fpeignot
+Generator arguments - -report report.txt -format ASCII -dir /home/fpeignot/workspace/tool-cardlessSimu/results -filter *.log
+
+Section: Test Report Summary
+############################
+
+Global results:
+
+Number of tests - 0
+Tests not found - 0
+Tests aborted   - 0
+Tests FAILED    - 0
+Tests PASSED    - 0
+
+Section: Global Tests Results
+#############################
+
+Execution result for each test.
+
+|                                  Passed    Failed                                  
+| TestId                Result     sub-tests sub-tests Synopsis                      
+
+
+Tests marked with a "*" were not selected.
+
+Section: Requirements Treacability
+##################################
+
+Tests per requirements and requirements per test.
+
+
+Tests per requirement:
+
+Requirements per test:

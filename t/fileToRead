@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+	<xmi:Documentation exporter="Bouml" exporterVersion="1.8.1"/>
+	<uml:Model xmi:type="uml:Model" xmi:id="themodel" name="Blokus">
+		<packagedElement xmi:type="uml:Package" xmi:id="BOUML_0x81_22" name ="Blokus">
+			<packagedElement xmi:type="uml:UseCase" xmi:id="BOUML_0x1f42a_5" name="Play">
+				<packagedElement xmi:type="uml:StateMachine" xmi:id="BOUML_0x1f42a_23" name="partie">
+					<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f42a_23" name="Bouml_Implicit_Region">
+						<subvertex xmi:type="uml:Pseudostate" xmi:id="BOUML_0x1f42a_29" name="start" kind="entryPoint">
+							<outgoing xmi:idref="BOUML_0x1f62a_24"/>
+						</subvertex>
+						<subvertex xmi:type="uml:FinalState" xmi:id="BOUML_0x1f4aa_30" name="Final">
+							<incoming xmi:idref="BOUML_0x1f7aa_24"/>
+							<incoming xmi:idref="BOUML_0x1f82a_24"/>
+						</subvertex>
+						<subvertex xmi:type="uml:State" xmi:id="BOUML_0x1f4aa_23" name="game">
+							<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_1" body="Etat en cours de partie"/>
+							<incoming xmi:idref="BOUML_0x1f4aa_24"/>
+							<incoming xmi:idref="BOUML_0x1f42a_24"/>
+							<incoming xmi:idref="BOUML_0x1f5aa_24"/>
+							<incoming xmi:idref="BOUML_0x1f6aa_24"/>
+							<incoming xmi:idref="BOUML_0x1f8aa_24"/>
+							<incoming xmi:idref="BOUML_0x1fb2a_24"/>
+							<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f4aa_23" name="Bouml_Implicit_Region">
+								<outgoing xmi:idref="BOUML_0x1f4aa_24"/>
+								<outgoing xmi:idref="BOUML_0x1f52a_24"/>
+								<outgoing xmi:idref="BOUML_0x1f72a_24"/>
+								<outgoing xmi:idref="BOUML_0x1fbaa_24"/>
+								<outgoing xmi:idref="BOUML_0x1fc2a_24"/>
+							</region>
+						</subvertex>
+						<subvertex xmi:type="uml:State" xmi:id="BOUML_0x1f52a_23" name="menu">
+							<incoming xmi:idref="BOUML_0x1f62a_24"/>
+							<incoming xmi:idref="BOUML_0x1fbaa_24"/>
+							<incoming xmi:idref="BOUML_0x1faaa_24"/>
+							<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f52a_23" name="Bouml_Implicit_Region">
+								<outgoing xmi:idref="BOUML_0x1f42a_24"/>
+								<outgoing xmi:idref="BOUML_0x1f7aa_24"/>
+								<outgoing xmi:idref="BOUML_0x1f82a_24"/>
+							</region>
+						</subvertex>
+						<subvertex xmi:type="uml:State" xmi:id="BOUML_0x1f5aa_23" name="saving">
+							<incoming xmi:idref="BOUML_0x1f52a_24"/>
+							<incoming xmi:idref="BOUML_0x1fc2a_24"/>
+							<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f5aa_23" name="Bouml_Implicit_Region">
+								<outgoing xmi:idref="BOUML_0x1f5aa_24"/>
+								<outgoing xmi:idref="BOUML_0x1f6aa_24"/>
+							</region>
+						</subvertex>
+						<subvertex xmi:type="uml:State" xmi:id="BOUML_0x1f62a_23" name="analyse">
+							<incoming xmi:idref="BOUML_0x1f72a_24"/>
+							<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f62a_23" name="Bouml_Implicit_Region">
+								<outgoing xmi:idref="BOUML_0x1f92a_24"/>
+								<outgoing xmi:idref="BOUML_0x1f9aa_24"/>
+							</region>
+						</subvertex>
+						<subvertex xmi:type="uml:State" xmi:id="BOUML_0x1f6aa_23" name="Illegal">
+							<incoming xmi:idref="BOUML_0x1f92a_24"/>
+							<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f6aa_23" name="Bouml_Implicit_Region">
+								<outgoing xmi:idref="BOUML_0x1f8aa_24"/>
+							</region>
+						</subvertex>
+						<subvertex xmi:type="uml:State" xmi:id="BOUML_0x1f72a_23" name="legal">
+							<incoming xmi:idref="BOUML_0x1f9aa_24"/>
+							<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f72a_23" name="Bouml_Implicit_Region">
+								<outgoing xmi:idref="BOUML_0x1fa2a_24"/>
+								<outgoing xmi:idref="BOUML_0x1fb2a_24"/>
+							</region>
+						</subvertex>
+						<subvertex xmi:type="uml:State" xmi:id="BOUML_0x1f7aa_23" name="score">
+							<incoming xmi:idref="BOUML_0x1fa2a_24"/>
+							<region xmi:type="uml:Region" xmi:id="BOUML_IMPLICIT_REGION_0x1f7aa_23" name="Bouml_Implicit_Region">
+								<outgoing xmi:idref="BOUML_0x1faaa_24"/>
+							</region>
+						</subvertex>
+					</region>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f62a_24" source="BOUML_0x1f42a_29" target="BOUML_0x1f52a_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f4aa_24" source="BOUML_0x1f4aa_23" target="BOUML_0x1f4aa_23" kind="internal">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f52a_24" name="save" source="BOUML_0x1f4aa_23" target="BOUML_0x1f5aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f72a_24" name="move" source="BOUML_0x1f4aa_23" target="BOUML_0x1f62a_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1fbaa_24" name="exit" source="BOUML_0x1f4aa_23" target="BOUML_0x1f52a_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1fc2a_24" name="save2" source="BOUML_0x1f4aa_23" target="BOUML_0x1f5aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f42a_24" name="new, load" source="BOUML_0x1f52a_23" target="BOUML_0x1f4aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f7aa_24" source="BOUML_0x1f52a_23" target="BOUML_0x1f4aa_30">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f82a_24" name="exit" source="BOUML_0x1f52a_23" target="BOUML_0x1f4aa_30">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f5aa_24" source="BOUML_0x1f5aa_23" target="BOUML_0x1f4aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f6aa_24" source="BOUML_0x1f5aa_23" target="BOUML_0x1f4aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f92a_24" source="BOUML_0x1f62a_23" target="BOUML_0x1f6aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f9aa_24" source="BOUML_0x1f62a_23" target="BOUML_0x1f72a_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1f8aa_24" name="rejected" source="BOUML_0x1f6aa_23" target="BOUML_0x1f4aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1fa2a_24" name="last" source="BOUML_0x1f72a_23" target="BOUML_0x1f7aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1fb2a_24" name="accepted" source="BOUML_0x1f72a_23" target="BOUML_0x1f4aa_23">
+					</transition>
+					<transition xmi:type="uml:Transition" xmi:id="BOUML_0x1faaa_24" source="BOUML_0x1f7aa_23" target="BOUML_0x1f52a_23">
+					</transition>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Collaboration" xmi:id="BOUML_COLLABORATION_0x2002a_12" name="Remote">
+					<ownedBehavior xmi:type="uml:Interaction" xmi:id="BOUML_INTERACTION_0x2002a_12" name="Remote">
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR2_5_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END1_0x2002a_12" role="BOUML_COLLATTR2_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END2_0x2002a_12" role="BOUML_COLLATTR5_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR5_5_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END3_0x2002a_12" role="BOUML_COLLATTR5_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END4_0x2002a_12" role="BOUML_COLLATTR5_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR1_5_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END5_0x2002a_12" role="BOUML_COLLATTR5_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END6_0x2002a_12" role="BOUML_COLLATTR1_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR2_2_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END7_0x2002a_12" role="BOUML_COLLATTR2_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END8_0x2002a_12" role="BOUML_COLLATTR2_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR1_1_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END9_0x2002a_12" role="BOUML_COLLATTR1_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END10_0x2002a_12" role="BOUML_COLLATTR1_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR4_5_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END11_0x2002a_12" role="BOUML_COLLATTR5_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END12_0x2002a_12" role="BOUML_COLLATTR4_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR4_4_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END13_0x2002a_12" role="BOUML_COLLATTR4_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END14_0x2002a_12" role="BOUML_COLLATTR4_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR3_5_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END15_0x2002a_12" role="BOUML_COLLATTR5_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END16_0x2002a_12" role="BOUML_COLLATTR3_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR5_6_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END17_0x2002a_12" role="BOUML_COLLATTR5_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END18_0x2002a_12" role="BOUML_COLLATTR6_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR3_3_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END19_0x2002a_12" role="BOUML_COLLATTR3_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END20_0x2002a_12" role="BOUML_COLLATTR3_0x2002a_12"/>
+						</ownedConnector>
+						<ownedConnector xmi:type="uml:Connector" xmi:id="BOUML_CONNECTOR6_6_0x2002a_12">
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END21_0x2002a_12" role="BOUML_COLLATTR6_0x2002a_12"/>
+							<end xmi:type="uml:ConnectorEnd" xmi:id="BOUML_END22_0x2002a_12" role="BOUML_COLLATTR6_0x2002a_12"/>
+						</ownedConnector>
+						<lifeline xmi:type="uml:Lifeline" xmi:id="BOUML_LIFELINE1_0x2002a_12" name="Bleu" represents="BOUML_COLLATTR1_0x2002a_12"/>
+						<lifeline xmi:type="uml:Lifeline" xmi:id="BOUML_LIFELINE2_0x2002a_12" name="Arbitre" represents="BOUML_COLLATTR2_0x2002a_12"/>
+						<lifeline xmi:type="uml:Lifeline" xmi:id="BOUML_LIFELINE3_0x2002a_12" name="Vert" represents="BOUML_COLLATTR3_0x2002a_12"/>
+						<lifeline xmi:type="uml:Lifeline" xmi:id="BOUML_LIFELINE4_0x2002a_12" name="Jaune" represents="BOUML_COLLATTR4_0x2002a_12"/>
+						<lifeline xmi:type="uml:Lifeline" xmi:id="BOUML_LIFELINE5_0x2002a_12" name="Serveur" represents="BOUML_COLLATTR5_0x2002a_12"/>
+						<lifeline xmi:type="uml:Lifeline" xmi:id="BOUML_LIFELINE6_0x2002a_12" name="Rouge" represents="BOUML_COLLATTR6_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND16_0x2002a_12" covered="BOUML_LIFELINE2_0x2002a_12" event="BOUML_SENDEVT1_0x81_22" message="BOUML_MSG16_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC16_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_RECEVT2_0x81_22" message="BOUML_MSG16_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC16_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" start="BOUML_MSGOCCSPECREC16_0x2002a_12" finish="BOUML_EXECOCCSPEC1_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC1_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC16_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND2_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT4_0x81_22" message="BOUML_MSG2_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC2_0x2002a_12" covered="BOUML_LIFELINE1_0x2002a_12" event="BOUML_RECEVT5_0x81_22" message="BOUML_MSG2_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC2_0x2002a_12" covered="BOUML_LIFELINE1_0x2002a_12" start="BOUML_MSGOCCSPECREC2_0x2002a_12" finish="BOUML_EXECOCCSPEC22_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND21_0x2002a_12" covered="BOUML_LIFELINE1_0x2002a_12" event="BOUML_SENDEVT6_0x81_22" message="BOUML_MSG21_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC21_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_RECEVT7_0x81_22" message="BOUML_MSG21_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC21_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" start="BOUML_MSGOCCSPECREC21_0x2002a_12" finish="BOUML_EXECOCCSPEC5_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC22_0x2002a_12" covered="BOUML_LIFELINE1_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC2_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC5_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC21_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND3_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT8_0x81_22" message="BOUML_MSG3_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC3_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_RECEVT9_0x81_22" message="BOUML_MSG3_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC3_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" start="BOUML_MSGOCCSPECREC3_0x2002a_12" finish="BOUML_EXECOCCSPEC26_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND25_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_SENDEVT6_0x81_22" message="BOUML_MSG25_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC25_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_RECEVT7_0x81_22" message="BOUML_MSG25_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC25_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" start="BOUML_MSGOCCSPECREC25_0x2002a_12" finish="BOUML_EXECOCCSPEC7_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC26_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC3_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND6_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT10_0x81_22" message="BOUML_MSG6_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC6_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_RECEVT11_0x81_22" message="BOUML_MSG6_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC6_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" start="BOUML_MSGOCCSPECREC6_0x2002a_12" finish="BOUML_EXECOCCSPEC28_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND27_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_SENDEVT6_0x81_22" message="BOUML_MSG27_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC27_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_RECEVT7_0x81_22" message="BOUML_MSG27_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC27_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" start="BOUML_MSGOCCSPECREC27_0x2002a_12" finish="BOUML_EXECOCCSPEC8_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC28_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC6_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC8_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC27_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC7_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC25_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND9_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT12_0x81_22" message="BOUML_MSG9_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC9_0x2002a_12" covered="BOUML_LIFELINE1_0x2002a_12" event="BOUML_RECEVT13_0x81_22" message="BOUML_MSG9_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC9_0x2002a_12" covered="BOUML_LIFELINE1_0x2002a_12" start="BOUML_MSGOCCSPECREC9_0x2002a_12" finish="BOUML_EXECOCCSPEC23_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND10_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT14_0x81_22" message="BOUML_MSG10_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC10_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_RECEVT15_0x81_22" message="BOUML_MSG10_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC10_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" start="BOUML_MSGOCCSPECREC10_0x2002a_12" finish="BOUML_EXECOCCSPEC29_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND13_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT16_0x81_22" message="BOUML_MSG13_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC13_0x2002a_12" covered="BOUML_LIFELINE2_0x2002a_12" event="BOUML_RECEVT17_0x81_22" message="BOUML_MSG13_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC13_0x2002a_12" covered="BOUML_LIFELINE2_0x2002a_12" start="BOUML_MSGOCCSPECREC13_0x2002a_12" finish="BOUML_EXECOCCSPEC18_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC23_0x2002a_12" covered="BOUML_LIFELINE1_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC9_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND11_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT14_0x81_22" message="BOUML_MSG11_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC11_0x2002a_12" covered="BOUML_LIFELINE3_0x2002a_12" event="BOUML_RECEVT15_0x81_22" message="BOUML_MSG11_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC11_0x2002a_12" covered="BOUML_LIFELINE3_0x2002a_12" start="BOUML_MSGOCCSPECREC11_0x2002a_12" finish="BOUML_EXECOCCSPEC24_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND12_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_SENDEVT14_0x81_22" message="BOUML_MSG12_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC12_0x2002a_12" covered="BOUML_LIFELINE6_0x2002a_12" event="BOUML_RECEVT15_0x81_22" message="BOUML_MSG12_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC12_0x2002a_12" covered="BOUML_LIFELINE6_0x2002a_12" start="BOUML_MSGOCCSPECREC12_0x2002a_12" finish="BOUML_EXECOCCSPEC30_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC29_0x2002a_12" covered="BOUML_LIFELINE4_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC10_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC18_0x2002a_12" covered="BOUML_LIFELINE2_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC13_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC24_0x2002a_12" covered="BOUML_LIFELINE3_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC11_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC30_0x2002a_12" covered="BOUML_LIFELINE6_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC12_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECSEND19_0x2002a_12" covered="BOUML_LIFELINE2_0x2002a_12" event="BOUML_SENDEVT18_0x81_22" message="BOUML_MSG19_0x2002a_12"/>
+						<fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="BOUML_MSGOCCSPECREC19_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_RECEVT19_0x81_22" message="BOUML_MSG19_0x2002a_12"/>
+						<fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="BOUML_BEHEXECSPEC19_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" start="BOUML_MSGOCCSPECREC19_0x2002a_12" finish="BOUML_EXECOCCSPEC15_0x2002a_12"/>
+						<fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="BOUML_EXECOCCSPEC15_0x2002a_12" covered="BOUML_LIFELINE5_0x2002a_12" event="BOUML_EXECEVT3_0x81_22" execution="BOUML_BEHEXECSPEC19_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG16_0x2002a_12" name="nouvellePartie" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND16_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC16_0x2002a_12" connector="BOUML_CONNECTOR2_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG2_0x2002a_12" name="aVous(bleu,plateau)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND2_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC2_0x2002a_12" connector="BOUML_CONNECTOR1_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG21_0x2002a_12" name="joue(piece,position)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND21_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC21_0x2002a_12" connector="BOUML_CONNECTOR1_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG3_0x2002a_12" name="aVous(jaune,plateau)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND3_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC3_0x2002a_12" connector="BOUML_CONNECTOR4_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG25_0x2002a_12" name="joue(piece,position)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND25_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC25_0x2002a_12" connector="BOUML_CONNECTOR4_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG6_0x2002a_12" name="illegal(jaune,plateau)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND6_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC6_0x2002a_12" connector="BOUML_CONNECTOR4_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG27_0x2002a_12" name="joue(piece,position)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND27_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC27_0x2002a_12" connector="BOUML_CONNECTOR4_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG9_0x2002a_12" name="Fin(score)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND9_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC9_0x2002a_12" connector="BOUML_CONNECTOR1_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG10_0x2002a_12" name="" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND10_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC10_0x2002a_12" connector="BOUML_CONNECTOR4_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG13_0x2002a_12" name="fin(score)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND13_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC13_0x2002a_12" connector="BOUML_CONNECTOR2_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG11_0x2002a_12" name="" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND11_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC11_0x2002a_12" connector="BOUML_CONNECTOR3_5_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG12_0x2002a_12" name="" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND12_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC12_0x2002a_12" connector="BOUML_CONNECTOR5_6_0x2002a_12"/>
+						<message xmi:type="uml:Message" xmi:id="BOUML_MSG19_0x2002a_12" name="sauvegarde(fichier)" messageSort="synchCall" sendEvent="BOUML_MSGOCCSPECSEND19_0x2002a_12" receiveEvent="BOUML_MSGOCCSPECREC19_0x2002a_12" connector="BOUML_CONNECTOR2_5_0x2002a_12"/>
+					</ownedBehavior>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="BOUML_COLLATTR1_0x2002a_12" name="Bleu" type="BOUML_0x1fb2a_4"/>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="BOUML_COLLATTR2_0x2002a_12" name="Arbitre" type="BOUML_0x2012a_4"/>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="BOUML_COLLATTR3_0x2002a_12" name="Vert" type="BOUML_0x1fb2a_4"/>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="BOUML_COLLATTR4_0x2002a_12" name="Jaune" type="BOUML_0x1fb2a_4"/>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="BOUML_COLLATTR5_0x2002a_12" name="Serveur" type="BOUML_0x1fbaa_4"/>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="BOUML_COLLATTR6_0x2002a_12" name="Rouge" type="BOUML_0x1fb2a_4"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Class" name="Arbitre" xmi:id="BOUML_0x2012a_4" visibility="package" isAbstract="false" >
+				</packagedElement>
+				<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="BOUML_0x1f42a_70" name="Arbitre">
+					<classifier  xmi:idref="BOUML_0x2012a_4"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="BOUML_0x1f4aa_70" name="Serveur">
+					<classifier  xmi:idref="BOUML_0x1fbaa_4"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="BOUML_0x1f52a_70" name="Bleu">
+					<classifier  xmi:idref="BOUML_0x1fb2a_4"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="BOUML_0x1f5aa_70" name="Jaune">
+					<classifier  xmi:idref="BOUML_0x1fb2a_4"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="BOUML_0x1f62a_70" name="Vert">
+					<classifier  xmi:idref="BOUML_0x1fb2a_4"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="BOUML_0x1f6aa_70" name="Rouge">
+					<classifier  xmi:idref="BOUML_0x1fb2a_4"/>
+				</packagedElement>
+			</packagedElement>
+			<packagedElement xmi:type="uml:UseCase" xmi:id="BOUML_0x1f4aa_5" name="Save">
+			</packagedElement>
+			<packagedElement xmi:type="uml:UseCase" xmi:id="BOUML_0x1f52a_5" name="Reload">
+			</packagedElement>
+			<packagedElement xmi:type="uml:Component" xmi:id="BOUML_0x1f42a_6" name="Interfaces">
+				<packagedElement xmi:type="uml:Component" xmi:id="BOUML_0x1f5aa_6" name="GUI">
+				</packagedElement>
+				<packagedElement xmi:type="uml:Component" xmi:id="BOUML_0x1f62a_6" name="Network">
+				</packagedElement>
+				<provided xmi:id="BOUML_PROVIDED0_0x1f42a_6" xmi:idref="BOUML_0x1f42a_4" name="Interface"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Component" xmi:id="BOUML_0x1f4aa_6" name="Engine">
+				<generalization xmi:type="uml:Generalization" xmi:id="BOUML_0x1f4aa_9" general="BOUML_0x1f52a_6"/>
+				<required xmi:id="BOUML_REQUIRED0_0x1f4aa_6" xmi:idref="BOUML_0x1fbaa_4" name="Engine"/>
+				<required xmi:id="BOUML_REQUIRED1_0x1f4aa_6" xmi:idref="BOUML_0x1f42a_4" name="Interface"/>
+				<required xmi:id="BOUML_REQUIRED2_0x1f4aa_6" xmi:idref="BOUML_0x1fc2a_4" name="Game"/>
+				<required xmi:id="BOUML_REQUIRED3_0x1f4aa_6" xmi:idref="BOUML_0x1f6aa_4" name="gameBoard"/>
+				<required xmi:id="BOUML_REQUIRED4_0x1f4aa_6" xmi:idref="BOUML_0x1fb2a_4" name="Player"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Component" xmi:id="BOUML_0x1f52a_6" name="Strategies">
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Interface" xmi:id="BOUML_0x1f42a_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_2" body="The interface class defines commandes from human user to control the game."/>
+				<ownedOperation xmi:type="uml:Operation" name="exit" xmi:id="BOUML_0x1f42a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_3" body="Exit of the program"/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="quit" xmi:id="BOUML_0x1f4aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_4" body="Quit the game, goes up one level in the menu modes."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="player" xmi:id="BOUML_0x1f52a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_5" body="Assign players to the computer or to human players. The &quot;who&quot; parameters contains strings like &quot;human&quot;, &quot;John&quot;, &quot;computer&quot; or &quot;strategy17&quot;. When a string is know by the program like &quot;computer&quot; or a strategy name, it will manage the player. All unknow strings are considered as human players name."/>
+					<ownedParameter xmi:type="uml:Parameter" name="color" xmi:id="BOUML_op_param_1" direction="in">
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="who" xmi:id="BOUML_op_param_2" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#String"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="move" xmi:id="BOUML_0x1f5aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_6" body="Put a piece on the game board.&#10;Returns 0 when the move is legal, an error code if not."/>
+					<ownedParameter xmi:type="uml:Parameter" name="color" xmi:id="BOUML_op_param_3" direction="in">
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="piece" xmi:id="BOUML_op_param_4" direction="in">
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="line" xmi:id="BOUML_op_param_5" direction="in">
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="raw" xmi:id="BOUML_op_param_6" direction="in">
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="error" xmi:id="BOUML_op_param_7" direction="out">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#String"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="save" xmi:id="BOUML_0x1f62a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_7" body="Save the game into a file to continue it later."/>
+					<ownedParameter xmi:type="uml:Parameter" name="filename" xmi:id="BOUML_op_param_8" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#String"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="load" xmi:id="BOUML_0x1f6aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_8" body="Reload a game from a file"/>
+					<ownedParameter xmi:type="uml:Parameter" name="filename" xmi:id="BOUML_op_param_9" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#String"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="hint" xmi:id="BOUML_0x1f72a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_9" body="Supply an hint to the player."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="rule" xmi:id="BOUML_0x1f7aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_10" body="Returns the game rules."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="new" xmi:id="BOUML_0x1f82a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_11" body="Start a new game."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="redo" xmi:id="BOUML_0x1f8aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_12" body="Go forward along the game moves. This operation is only possible after that you have started to explore the sequence of move backward."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="undo" xmi:id="BOUML_0x1f92a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_13" body="Cancel one or several moves. They are kept in the game move stack."/>
+				</ownedOperation>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1fdaa_0" visibility="private" association="BOUML_ASSOC_0x1fdaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x20daa_0" visibility="private" association="BOUML_ASSOC_0x20daa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="GUI" xmi:id="BOUML_0x1f4aa_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_14" body="Graphical User Interface"/>
+				<generalization xmi:type="uml:Generalization" xmi:id="BOUML_0x1f42a_0" general="BOUML_0x1f42a_4"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Line" xmi:id="BOUML_0x1f52a_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_15" body="Line interface, the prorgams reads its command from STDIN and returns the replies on STDOUT"/>
+				<generalization xmi:type="uml:Generalization" xmi:id="BOUML_0x1f4aa_0" general="BOUML_0x1f42a_4"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="TCPIP" xmi:id="BOUML_0x1f5aa_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_16" body="Same interface than 'Line' but over TCP/IP. The program engine is a server. Some players strategies could be clients."/>
+				<generalization xmi:type="uml:Generalization" xmi:id="BOUML_0x1f52a_0" general="BOUML_0x1f42a_4"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Piece" xmi:id="BOUML_0x1f62a_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_17" body="Game pieces"/>
+				<ownedAttribute xmi:type="uml:Property" name="_squareList" xmi:id="BOUML_0x1f4aa_1" visibility="private">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_18" body="List of the square of the piece. It is a two dimentions array.&#10;"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="_id" xmi:id="BOUML_0x1fa2a_1" visibility="private">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_19" body="Piece identification from 1 to 21."/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="_color" xmi:id="BOUML_0x1faaa_1" visibility="private">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_20" body="The color of the piece."/>
+				</ownedAttribute>
+				<ownedOperation xmi:type="uml:Operation" name="clone" xmi:id="BOUML_0x2082a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_21" body="Create a new piece from an existing one. Used to initialize the boxes which contain all the rotations."/>
+					<ownedParameter xmi:type="uml:Parameter" name="p" xmi:id="BOUML_op_param_10" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="equal" xmi:id="BOUML_0x2062a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_22" body="Compare two pieces. Used to determine if a rotation variant is already known."/>
+					<ownedParameter xmi:type="uml:Parameter" name="p" xmi:id="BOUML_op_param_11" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="width" xmi:id="BOUML_0x2072a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_23" body="Returns the width of the piece, from 1 to 5. Width can change after a rotation.&#10;"/>
+					<ownedParameter name="return" xmi:id="BOUML_return_1" direction="return">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="height" xmi:id="BOUML_0x207aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_24" body="Returns the height of the piece, from 1 to 5. Height can change after a rotation."/>
+					<ownedParameter name="return" xmi:id="BOUML_return_2" direction="return">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="square" xmi:id="BOUML_0x206aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_25" body="Returns a color character, 'B' for blue, 'Y' for yellow, 'G' for greem, 'R' for red and ' ' for empty.&#10;Additional possible values are 'S' for side and 'C' for corners.&#10;"/>
+					<ownedParameter xmi:type="uml:Parameter" name="line" xmi:id="BOUML_op_param_12" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="raw" xmi:id="BOUML_op_param_13" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="display" xmi:id="BOUML_0x2052a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_26" body="Display the square of a piece."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="dump" xmi:id="BOUML_0x205aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_27" body="Dump the full state of the object. Debugging only."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="rotate" xmi:id="BOUML_0x1f9aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_28" body="Rotates the pièce of 90, 180 or 270 degres clockwise."/>
+					<ownedParameter xmi:type="uml:Parameter" name="angle" xmi:id="BOUML_op_param_14" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="miror" xmi:id="BOUML_0x1fa2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_29" body="Returns a piece vertically or horizontally"/>
+					<ownedParameter xmi:type="uml:Parameter" name="way" xmi:id="BOUML_op_param_15" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Boolean"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="squareNumber" xmi:id="BOUML_0x208aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_30" body="Number of square of the piece, from 1 to 5"/>
+				</ownedOperation>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1f5aa_0" visibility="private" association="BOUML_ASSOC_0x1f5aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f6aa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1fb2a_0" visibility="private" association="BOUML_ASSOC_0x1faaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x2062a_0" visibility="private" association="BOUML_ASSOC_0x205aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x200aa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="in" xmi:id="BOUML_0x2072a_0" visibility="private" association="BOUML_ASSOC_0x206aa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x200aa_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x2072a_0" value="1"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x2072a_0" value="1"/>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Box" xmi:id="BOUML_0x200aa_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_31" body="Game piece for one player"/>
+				<ownedAttribute xmi:type="uml:Property" name="_color" xmi:id="BOUML_0x1f92a_1" visibility="private">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_32" body="Color of the pieces"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="_list" xmi:id="BOUML_0x1f9aa_1" visibility="private">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_33" body="It is a list of:&#10;	- one bool to know if a piece has been played&#10;	- the list of all rotations and symetries of the piece&#10;"/>
+				</ownedAttribute>
+				<ownedOperation xmi:type="uml:Operation" name="reset" xmi:id="BOUML_0x20daa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_34" body="Set the box to its beginning of game state."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="exist" xmi:id="BOUML_0x209aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_35" body="True when the piece is still in the box"/>
+					<ownedParameter name="return" xmi:id="BOUML_return_3" direction="return">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Boolean"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="id" xmi:id="BOUML_op_param_16" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="remove" xmi:id="BOUML_0x20a2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_36" body="Remove the piece from the box"/>
+					<ownedParameter xmi:type="uml:Parameter" name="id" xmi:id="BOUML_op_param_17" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="put" xmi:id="BOUML_0x20caa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_37" body="Put back a piece in the box.&#10;"/>
+					<ownedParameter xmi:type="uml:Parameter" name="id" xmi:id="BOUML_op_param_18" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="variantNumber" xmi:id="BOUML_0x20aaa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_38" body="Number of rotations and symetries for a piece. It is one for a square and can be up to 8 for compliacated pieces."/>
+					<ownedParameter xmi:type="uml:Parameter" name="id" xmi:id="BOUML_op_param_19" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="piece" xmi:id="BOUML_0x20b2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_39" body="Returnes the piece 'id' in its 'variante' orientation"/>
+					<ownedParameter xmi:type="uml:Parameter" name="id" xmi:id="BOUML_op_param_20" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="variante" xmi:id="BOUML_op_param_21" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x205aa_0" visibility="private" association="BOUML_ASSOC_0x205aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="contains" xmi:id="BOUML_0x206aa_0" visibility="private" association="BOUML_ASSOC_0x206aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x206aa_0" value="0"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x206aa_0" value="21"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x2082a_0" visibility="private" association="BOUML_ASSOC_0x207aa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fb2a_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x2082a_0" value="1"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x2082a_0" value="1"/>
+				</ownedAttribute>
+				<ownedOperation xmi:type="uml:Operation" name="score" xmi:id="BOUML_0x20d2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_40" body="Total of the number of square in the box"/>
+					<ownedParameter name="return" xmi:id="BOUML_return_4" direction="return">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x20a2a_0" visibility="private" association="BOUML_ASSOC_0x209aa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x20a2a_0" value="1"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x20a2a_0" value="1"/>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="gameBoard" xmi:id="BOUML_0x1f6aa_4" visibility="package" isAbstract="false" >
+				<ownedRule xmi:type="uml:Constraint" xmi:id="BOUML_CONSTRAINT_0x1f6aa_4" constrainedElement="BOUML_0x1f6aa_4">
+					<specification xmi:type="uml:OpaqueExpression" xmi:id="BOUML_CSPEC_0x1f6aa_4">
+						<body>.</body>
+					</specification>
+				</ownedRule>
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_41" body="Game board. It also rejects ellegal moves and maintain related service data"/>
+				<ownedAttribute xmi:type="uml:Property" name="_squareList" xmi:id="BOUML_0x1fb2a_1" visibility="private">
+				</ownedAttribute>
+				<ownedOperation xmi:type="uml:Operation" name="display" xmi:id="BOUML_0x1fb2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_42" body="Display the state of the gameboard"/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="dump" xmi:id="BOUML_0x2092a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_43" body="Dump the internal state of the gameboard. Debugging only."/>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="put" xmi:id="BOUML_0x1fbaa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_44" body="Put a piece at the specified position on the board. If the move is illegal, it is rejected and the state of the board does not change."/>
+					<ownedParameter xmi:type="uml:Parameter" name="piece" xmi:id="BOUML_op_param_22" direction="in">
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="line" xmi:id="BOUML_op_param_23" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="raw" xmi:id="BOUML_op_param_24" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="square" xmi:id="BOUML_0x20baa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_45" body="returns the contents of a square.&#10;&#10;' ', 'B', 'Y', 'G' or 'R'"/>
+					<ownedParameter xmi:type="uml:Parameter" name="ligne" xmi:id="BOUML_op_param_25" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="colonne" xmi:id="BOUML_op_param_26" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1f62a_0" visibility="private" association="BOUML_ASSOC_0x1f5aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1fc2a_0" visibility="private" association="BOUML_ASSOC_0x1fbaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x2002a_0" visibility="private" association="BOUML_ASSOC_0x2002a_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fc2a_4"/>
+				</ownedAttribute>
+				<ownedOperation xmi:type="uml:Operation" name="legal" xmi:id="BOUML_0x20c2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_46" body="Vérifie s'il est légal de poser cette pièce à cette position"/>
+					<ownedParameter name="return" xmi:id="BOUML_return_5" direction="return">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Boolean"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="p" xmi:id="BOUML_op_param_27" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="ligne" xmi:id="BOUML_op_param_28" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="colonne" xmi:id="BOUML_op_param_29" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="remove" xmi:id="BOUML_0x20e2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_47" body="Remove a pice from a position."/>
+					<ownedParameter xmi:type="uml:Parameter" name="id" xmi:id="BOUML_op_param_30" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="line" xmi:id="BOUML_op_param_31" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="raw" xmi:id="BOUML_op_param_32" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x20d2a_0" visibility="private" association="BOUML_ASSOC_0x20caa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x20d2a_0" value="1"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x20d2a_0" value="1"/>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Player" xmi:id="BOUML_0x1fb2a_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_48" body="A player"/>
+				<ownedAttribute xmi:type="uml:Property" name="_color" xmi:id="BOUML_0x1fbaa_1" visibility="private">
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1fd2a_0" visibility="private" association="BOUML_ASSOC_0x1fcaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1feaa_0" visibility="private" association="BOUML_ASSOC_0x1feaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fc2a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1ffaa_0" visibility="private" association="BOUML_ASSOC_0x1ffaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fc2a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="has" xmi:id="BOUML_0x207aa_0" visibility="private" association="BOUML_ASSOC_0x207aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x200aa_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x207aa_0" value="1"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x207aa_0" value="1"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x2092a_0" visibility="private" association="BOUML_ASSOC_0x208aa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x20b2a_0" visibility="private" association="BOUML_ASSOC_0x20aaa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x20b2a_0" value="1"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x20b2a_0" value="1"/>
+				</ownedAttribute>
+				<ownedOperation xmi:type="uml:Operation" name="bestMove" xmi:id="BOUML_0x20eaa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_49" body="Ask for the best move of a player"/>
+					<ownedParameter xmi:type="uml:Parameter" name="cl" xmi:id="BOUML_op_param_33" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_datatype_0"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="pl" xmi:id="BOUML_op_param_34" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f6aa_4"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="bx" xmi:id="BOUML_op_param_35" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_datatype_1"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="illegal" xmi:id="BOUML_0x20f2a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_50" body="Rejects the latest move of a player."/>
+				</ownedOperation>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Engine" xmi:id="BOUML_0x1fbaa_4" visibility="package" isAbstract="false" >
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1faaa_0" visibility="private" association="BOUML_ASSOC_0x1faaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1fbaa_0" visibility="private" association="BOUML_ASSOC_0x1fbaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f6aa_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1fcaa_0" visibility="private" association="BOUML_ASSOC_0x1fcaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fb2a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1fe2a_0" visibility="private" association="BOUML_ASSOC_0x1fdaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f42a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x200aa_0" visibility="private" association="BOUML_ASSOC_0x200aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fc2a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x208aa_0" visibility="private" association="BOUML_ASSOC_0x208aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fb2a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="has" xmi:id="BOUML_0x209aa_0" visibility="private" association="BOUML_ASSOC_0x209aa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x200aa_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x209aa_0" value="4"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x209aa_0" value="4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="manage" xmi:id="BOUML_0x20aaa_0" visibility="private" association="BOUML_ASSOC_0x20aaa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fb2a_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x20aaa_0" value="4"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x20aaa_0" value="4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="hasBoard" xmi:id="BOUML_0x20caa_0" visibility="private" association="BOUML_ASSOC_0x20caa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f6aa_4"/>
+					<lowerValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_L_0x20caa_0" value="1"/>
+					<upperValue xmi:type="uml:LiteralString" xmi:id="BOUML_MULTIPLICITY_U_0x20caa_0" value="1"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x20e2a_0" visibility="private" association="BOUML_ASSOC_0x20daa_0" aggregation="none">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f42a_4"/>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Game" xmi:id="BOUML_0x1fc2a_4" visibility="package" isAbstract="false" >
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x1ff2a_0" visibility="private" association="BOUML_ASSOC_0x1feaa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fb2a_4"/>
+				</ownedAttribute>
+				<ownedAttribute xmi:type="uml:Property" name="" xmi:id="BOUML_0x2012a_0" visibility="private" association="BOUML_ASSOC_0x200aa_0" aggregation="composite">
+					<type xmi:type="uml:Class" xmi:idref="BOUML_0x1fbaa_4"/>
+				</ownedAttribute>
+				<ownedOperation xmi:type="uml:Operation" name="register" xmi:id="BOUML_0x20faa_2" visibility="public" isAbstract="false">
+					<ownedParameter xmi:type="uml:Parameter" name="p" xmi:id="BOUML_op_param_36" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_0x1f62a_4"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="c" xmi:id="BOUML_op_param_37" direction="in">
+						<type xmi:type="uml:Class" xmi:idref="BOUML_datatype_0"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="line" xmi:id="BOUML_op_param_38" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+					<ownedParameter xmi:type="uml:Parameter" name="raw" xmi:id="BOUML_op_param_39" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#Integer"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="save" xmi:id="BOUML_0x2102a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_51" body="save the game into a file"/>
+					<ownedParameter xmi:type="uml:Parameter" name="fichier" xmi:id="BOUML_op_param_40" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#String"/>
+					</ownedParameter>
+				</ownedOperation>
+				<ownedOperation xmi:type="uml:Operation" name="reload" xmi:id="BOUML_0x210aa_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_52" body="Reloads the game from a file"/>
+					<ownedParameter xmi:type="uml:Parameter" name="fichier" xmi:id="BOUML_op_param_41" direction="in">
+						<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1/uml.xml#String"/>
+					</ownedParameter>
+				</ownedOperation>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="Human" xmi:id="BOUML_0x201aa_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_53" body="A human player"/>
+				<generalization xmi:type="uml:Generalization" xmi:id="BOUML_0x20baa_0" general="BOUML_0x1fb2a_4"/>
+				<ownedOperation xmi:type="uml:Operation" name="input" xmi:id="BOUML_0x2112a_2" visibility="public" isAbstract="false">
+					<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_54" body="Ask the human player for his move"/>
+				</ownedOperation>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Class" name="AI" xmi:id="BOUML_0x2022a_4" visibility="package" isAbstract="false" >
+				<ownedComment xmi:type="uml:Comment" xmi:id="COMMENT_55" body="An artificial intelligence player"/>
+				<generalization xmi:type="uml:Generalization" xmi:id="BOUML_0x20c2a_0" general="BOUML_0x1fb2a_4"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Dependency" xmi:id="BOUML_0x1f42a_9" client="BOUML_0x1f42a_6" supplier="BOUML_0x1f4aa_6">
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x1fdaa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x1fdaa_0"/>
+				<memberEnd xmi:idref="BOUML_0x1fe2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x20daa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x20daa_0"/>
+				<memberEnd xmi:idref="BOUML_0x20e2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x1f5aa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x1f5aa_0"/>
+				<memberEnd xmi:idref="BOUML_0x1f62a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x205aa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x205aa_0"/>
+				<memberEnd xmi:idref="BOUML_0x2062a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x206aa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x206aa_0"/>
+				<memberEnd xmi:idref="BOUML_0x2072a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x2002a_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x2002a_0"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_REVERSE_0x2002a_0" association="BOUML_ASSOC_0x2002a_0" visibility="private" type="BOUML_0x1f6aa_4" aggregation="composite" isNavigable="false"/>
+				<memberEnd  xmi:idref="BOUML_REVERSE_0x2002a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x1feaa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x1feaa_0"/>
+				<memberEnd xmi:idref="BOUML_0x1ff2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x1ffaa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x1ffaa_0"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_REVERSE_0x1ffaa_0" association="BOUML_ASSOC_0x1ffaa_0" visibility="private" type="BOUML_0x1fb2a_4" aggregation="composite" isNavigable="false"/>
+				<memberEnd  xmi:idref="BOUML_REVERSE_0x1ffaa_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x207aa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x207aa_0"/>
+				<memberEnd xmi:idref="BOUML_0x2082a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x1faaa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x1faaa_0"/>
+				<memberEnd xmi:idref="BOUML_0x1fb2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x1fbaa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x1fbaa_0"/>
+				<memberEnd xmi:idref="BOUML_0x1fc2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x1fcaa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x1fcaa_0"/>
+				<memberEnd xmi:idref="BOUML_0x1fd2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x200aa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x200aa_0"/>
+				<memberEnd xmi:idref="BOUML_0x2012a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x208aa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x208aa_0"/>
+				<memberEnd xmi:idref="BOUML_0x2092a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x209aa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x209aa_0"/>
+				<memberEnd xmi:idref="BOUML_0x20a2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x20aaa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x20aaa_0"/>
+				<memberEnd xmi:idref="BOUML_0x20b2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_ASSOC_0x20caa_0" visibility="private">
+				<memberEnd xmi:idref="BOUML_0x20caa_0"/>
+				<memberEnd xmi:idref="BOUML_0x20d2a_0"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_UCAC0_0x1f9aa_11">
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_AC0_0x1f9aa_11" type="BOUML_0x1fb2a_4" association="BOUML_UCAC0_0x1f9aa_11"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_UC0_0x1f9aa_11" type="BOUML_0x1f52a_5" association="BOUML_UCAC0_0x1f9aa_11"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_UCAC1_0x1f9aa_11">
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_AC1_0x1f9aa_11" type="BOUML_0x1fb2a_4" association="BOUML_UCAC1_0x1f9aa_11"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_UC1_0x1f9aa_11" type="BOUML_0x1f42a_5" association="BOUML_UCAC1_0x1f9aa_11"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Association" xmi:id="BOUML_UCAC2_0x1f9aa_11">
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_AC2_0x1f9aa_11" type="BOUML_0x1fb2a_4" association="BOUML_UCAC2_0x1f9aa_11"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="BOUML_UC2_0x1f9aa_11" type="BOUML_0x1f4aa_5" association="BOUML_UCAC2_0x1f9aa_11"/>
+			</packagedElement>
+		</packagedElement>
+		<packagedElement xmi:type="uml:DataType" xmi:id="BOUML_datatype_1" name="boxes[]"/>
+		<packagedElement xmi:type="uml:DataType" xmi:id="BOUML_datatype_0" name="color"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT12_0x81_22" name="Fin(score)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT11_0x81_22" name="illegal(jaune,plateau)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT1_0x81_22" name="nouvellePartie"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT19_0x81_22" name="sauvegarde(fichier)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT13_0x81_22" name="Fin(score)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_EXECEVT3_0x81_22" name=""/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT16_0x81_22" name="fin(score)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT10_0x81_22" name="illegal(jaune,plateau)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT2_0x81_22" name="nouvellePartie"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT17_0x81_22" name="fin(score)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT8_0x81_22" name="aVous(jaune,plateau)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT6_0x81_22" name="joue(piece,position)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT7_0x81_22" name="joue(piece,position)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT5_0x81_22" name="aVous(bleu,plateau)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT15_0x81_22" name=""/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT4_0x81_22" name="aVous(bleu,plateau)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT18_0x81_22" name="sauvegarde(fichier)"/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_SENDEVT14_0x81_22" name=""/>
+		<packagedElement xmi:type="uml:ExecutionEvent" xmi:id="BOUML_RECEVT9_0x81_22" name="aVous(jaune,plateau)"/>
+	</uml:Model>
+</xmi:XMI>

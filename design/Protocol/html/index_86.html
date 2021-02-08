@@ -1,0 +1,23 @@
+<!-- Documentation produced by the Html generator of Bouml (http://bouml.free.fr) -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>V</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class = "title">V</div>
+<p></p>
+
+<!-- ============================================================= -->
+
+<table>
+<tr bgcolor=#f0f0f0><td align=center><b>Name</b></td><td align=center><b>Kind</b></td><td align=center><b>Description</b></td></tr>
+<tr bgcolor=#f0f0f0><td><a href="index.html#refoperation128042" target = "projectFrame"><b>value</b></a></td><td>operation</td><td># This method returns the value of the message or any of its subcomponent.<br /># Subcomponents are element for lists, fields for records. When the <br /># message is a structured message, combination of various lists and <br /># records, it is possible to adress any sub-elements at any level.<br /># It returns a scalar when the sub-component indicator identifies a scalar<br /># or a reference to a list when the item is a list, or a reference to a hash<br /># when the item is a record. It returns undef when the item subcomponent does<br /># not exist.<br />#<br /># The following example explains the syntax supported for sub-components. The <br /># message is a record with a component named OP_LIST, which is a list with <br /># at least two elements. These elements are date records which contain<br /># at least a filed named MONTH.<br />#<br /># (Start code)<br /># # access a value<br /># my $value = $msg-&gt;value('OP_LIST.[1].DATE.MONTH');<br />#<br /># # change a value<br /># $msg-&gt;value('OP_LIST.[1].DATE.MONTH', 12);<br /># (end)<br />#<br /># Parameters:<br /># id - sub-element identifier<br /># new - new value</td></tr>
+</table>
+</body>
+</html>

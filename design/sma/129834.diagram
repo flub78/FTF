@@ -1,0 +1,51 @@
+format 63
+
+pseudostatecanvas 128042 pseudostate_ref 129450 // entry_point
+   xyz 33 161 3005 label_xy 29 180
+end
+pseudostatecanvas 128170 pseudostate_ref 129578 // final
+   xyz 474 205 2000
+end
+statecanvas 128298 state_ref 131754 // State1
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 124 46 2000 59 35
+end
+statecanvas 128426 state_ref 131882 // State2
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 344 47 2000 59 35
+end
+statecanvas 128554 state_ref 132010 // State3
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 193 201 2000 59 35
+end
+transitioncanvas 128682 transition_ref 130602 // <transition>
+  
+  from ref 128042 z 1999 stereotype "<<A>>" xyz 53 99 3000 to ref 128298
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 128810 transition_ref 130730 // <transition>
+  
+  from ref 128298 z 1999 stereotype "<<B>>" xyz 239 42 3000 to ref 128426
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 128938 transition_ref 130858 // <transition>
+  
+  from ref 128426 z 1999 stereotype "<<A>>" xyz 263 127 3000 to ref 128554
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 129066 transition_ref 130986 // <transition>
+  
+  from ref 128554 z 1999 stereotype "<<A>>" xyz 154 138 3000 to ref 128298
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 129194 transition_ref 131114 // <transition>
+  
+  from ref 128426 z 1999 stereotype "<<B>>" xyz 406 144 3000 to ref 128170
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 129322 transition_ref 131242 // <transition>
+  
+  from ref 128554 z 1999 stereotype "<<B>>" xyz 339 220 3000 to ref 128170
+  write_horizontally default show_definition default drawing_language default
+end
+end

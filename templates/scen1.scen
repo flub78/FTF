@@ -1,0 +1,7 @@
+# Test scenario number 1
+print("Test scenario 1\n");
+
+$Self->subtest_1();
+$Self->subtest_2();
+
+print("End of scenario 1\n");

@@ -1,0 +1,32 @@
+format 63
+
+statecanvas 128042 state_ref 132266 // OnExitTriggers
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  color darkblue xyzwh 93 78 2000 120 80
+end
+statecanvas 128170 state_ref 132394 // Départure
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  color white xyzwh 108 107 2005 87 36
+end
+statecanvas 128298 state_ref 132522 // OnEntryTriggers
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  color mediumgreen xyzwh 259 78 2000 123 78
+end
+statecanvas 128426 state_ref 132650 // Arrival
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  color white xyzwh 287 105 2005 74 41
+end
+note 128682 "On exit triggers are activated during the blue area crossing"
+  color lightblue  xyzwh 42 197 2000 139 73
+note 128938 "On exit triggers are called during the green area crossing"
+  color green  xyzwh 302 197 2000 136 69
+transitioncanvas 128554 transition_ref 131370 // <transition>
+  
+  from ref 128170 z 2004 to ref 128426
+  write_horizontally default show_definition default drawing_language default
+end
+line 128810 -_-_
+  from ref 128682 z 1999 to ref 128042
+line 129066 -_-_
+  from ref 128938 z 1999 to ref 128426
+end

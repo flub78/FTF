@@ -1,0 +1,45 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1271063641 (0x4bc2e459)
+        Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=FR, L=Paris, O=Tester
+        Validity
+            Not Before: Apr 12 09:14:01 2010 GMT
+            Not After : Jan 26 09:14:01 2284 GMT
+        Subject: C=FR, L=Paris, O=Tester
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (1024 bit)
+                Modulus:
+                    00:80:55:ff:2e:51:41:49:e9:7d:07:d1:4d:71:1a:
+                    12:6b:32:f6:c1:2a:39:46:86:37:ce:de:6f:f5:32:
+                    94:e8:6d:bd:1f:1f:9d:50:51:cf:00:bb:bd:91:16:
+                    2d:de:b4:c5:ad:52:f8:68:98:f9:3b:4f:4d:dc:6e:
+                    d0:e9:6a:a9:be:b7:0d:55:b6:ec:ae:d5:c2:13:83:
+                    0a:ca:23:7c:3e:31:05:26:58:a2:fb:98:0e:53:6d:
+                    98:07:d9:66:0f:9f:ed:25:1e:28:d3:40:b9:6b:72:
+                    91:a8:ee:58:3f:6a:cb:9b:31:a4:78:8d:4f:7f:d5:
+                    63:5d:31:cb:9f:10:5c:08:e1
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: sha1WithRSAEncryption
+        1b:f3:f8:65:6e:75:6b:a5:b1:31:4f:6a:cd:71:c0:f9:39:0d:
+        99:cc:4d:9c:73:8e:f9:f0:52:21:93:d7:92:bb:85:d0:d3:6a:
+        9f:c7:cf:a9:51:fd:2d:81:54:91:52:f9:cb:12:d2:7c:ac:25:
+        cc:b0:b7:27:bc:02:e3:7e:0d:30:ba:e8:48:d7:9a:b5:70:7d:
+        08:96:a3:88:0c:3d:f8:80:f7:25:cd:e6:c5:d0:59:16:db:75:
+        f8:49:74:79:4f:b9:69:0c:03:fe:72:cb:79:09:a8:f6:95:de:
+        7b:48:41:81:9e:53:51:3f:b3:30:34:c4:7a:57:38:19:1d:f3:
+        ea:76
+-----BEGIN CERTIFICATE-----
+MIIB1TCCAT6gAwIBAgIES8LkWTANBgkqhkiG9w0BAQUFADAuMQswCQYDVQQGEwJG
+UjEOMAwGA1UEBxMFUGFyaXMxDzANBgNVBAoTBlRlc3RlcjAgFw0xMDA0MTIwOTE0
+MDFaGA8yMjg0MDEyNjA5MTQwMVowLjELMAkGA1UEBhMCRlIxDjAMBgNVBAcTBVBh
+cmlzMQ8wDQYDVQQKEwZUZXN0ZXIwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGB
+AIBV/y5RQUnpfQfRTXEaEmsy9sEqOUaGN87eb/UylOhtvR8fnVBRzwC7vZEWLd60
+xa1S+GiY+TtPTdxu0Olqqb63DVW27K7VwhODCsojfD4xBSZYovuYDlNtmAfZZg+f
+7SUeKNNAuWtykajuWD9qy5sxpHiNT3/VY10xy58QXAjhAgMBAAEwDQYJKoZIhvcN
+AQEFBQADgYEAG/P4ZW51a6WxMU9qzXHA+TkNmcxNnHOO+fBSIZPXkruF0NNqn8fP
+qVH9LYFUkVL5yxLSfKwlzLC3J7wC434NMLroSNeatXB9CJajiAw9+ID3Jc3mxdBZ
+Ftt1+El0eU+5aQwD/nLLeQmo9pXee0hBgZ5TUT+zMDTEelc4GR3z6nY=
+-----END CERTIFICATE-----

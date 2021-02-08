@@ -1,0 +1,146 @@
+
+<html>
+<head>
+<title>Class.pm</title>
+<meta name="generator" content="perl2html 0.9.2">
+<meta name="date" content="2011-01-21T14:30:33+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+<pre width="80"><font color="#B22222"># ----------------------------------------------------------------------------</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Title:  Class Template</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Source - &lt;file:../Class.pm.html&gt;</font>
+<font color="#B22222"># Version - 1.0</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Abstract:</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#       Template for Perl classes used in the toolbox context.</font>
+<font color="#B22222">#       Its usage is recommended for every class of the</font>
+<font color="#B22222">#       toolbox and in test suite development.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Content:</font>
+<font color="#B22222">#</font>
+<font color="#B22222">#       - It is an object oriented class template.</font>
+<font color="#B22222">#       - Object creation and initialization are distinct. To support inheritance</font>
+<font color="#B22222">#       - Accessors to set and get attribute values.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Usage:</font>
+<font color="#B22222">#    (start code)</font>
+<font color="#B22222">#    # put here some examples of the API usage</font>
+<font color="#B22222">#    my $left = new Range (100, 200, 300, 400);</font>
+<font color="#B22222">#    my $union = $left + $right;</font>
+<font color="#B22222">#    print $left . " union " . $right . " = " . $union . "\n";</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># (end)</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#4169E1">package Class;</font>
+
+<font color="#4169E1">use strict;</font>
+use 5.010;
+<font color="#4169E1">use warnings;</font>
+
+<font color="#4169E1">use vars qw($VERSION @ISA @EXPORT);</font>
+<font color="#4169E1">use Exporter;</font>
+<font color="#4169E1">use ClassWithLogger;</font>
+
+$VERSION = 1;
+@ISA     = qw(ClassWithLogger);
+
+<font color="#4169E1">use Log::Log4perl;</font>
+<font color="#4169E1">use Data::Dumper;</font>
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: _init (private)</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Initialisation of the object. Do not call directly.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Most constructors are organized into three steps.</font>
+<font color="#B22222">#    - default attributes initialization</font>
+<font color="#B22222">#    - attribute from the parameter constructor</font>
+<font color="#B22222">#    - completion of attributes</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub _init </font></strong>{
+<font color="#4169E1">    my</font> $Self = shift;
+
+<font color="#B22222">    # Call the parent initialization first</font>
+    $Self-&gt;ClassWithLogger::_init(@_);
+
+<font color="#4169E1">    my</font> %attr = @_;
+
+<font color="#B22222">    # Attribute initialization</font>
+    $Self-&gt;{<font color="#228B22">'scalar'</font>}  = 0;
+    $Self-&gt;{<font color="#228B22">'listRef'</font>} = [];
+    $Self-&gt;{<font color="#228B22">'hashRef'</font>} = {};
+
+<font color="#B22222">    # Takes the constructor parameters as object attributs</font>
+<font color="#4169E1">    foreach</font><font color="#4169E1"> my</font> $key ( keys %attr ) {
+        $Self-&gt;{$key} = $attr{$key};
+    }
+
+<font color="#B22222">    # Others initialisation</font>
+<font color="#4169E1">    unless</font> ( exists( $Self-&gt;{<font color="#228B22">'LoggerName'</font>} ) ) {
+        $Self-&gt;{<font color="#228B22">'LoggerName'</font>} = $Self-&gt;{<font color="#228B22">'Class'</font>};
+    }
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: attr attribute accessor  </font>
+<font color="#B22222">#</font>
+<font color="#B22222"># This accessor can be use to set or get the value of an attribute.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># Parameters:</font>
+<font color="#B22222"># value - when void the method get the value. when defined, set the value.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># (start code)</font>
+<font color="#B22222"># # to set the value of an attribute 'name'</font>
+<font color="#B22222"># $msg-&gt;name('Mike');</font>
+<font color="#B22222"># #</font>
+<font color="#B22222"># # to get tha value of the attribute</font>
+<font color="#B22222"># print $msg-&gt;name();</font>
+<font color="#B22222"># (end)</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub attr </font></strong>{
+<font color="#4169E1">    my</font> $Self = shift;
+
+    $Self-&gt;{<font color="#228B22">'attr'</font>} = shift<font color="#4169E1"> if</font> @_;
+<font color="#4169E1">    return</font> $Self-&gt;{<font color="#228B22">'attr'</font>};
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: roattr read only attribute accessor</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># This accessor returns the value of an attribute</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub roattr </font></strong>{
+<font color="#4169E1">    my</font> $Self = shift;
+<font color="#4169E1">    return</font> $Self-&gt;{<font color="#228B22">'roattr'</font>};
+}
+
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<font color="#B22222"># method: method</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># regular method template, duplicate for each real method.</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># parameters:</font>
+<font color="#B22222"># param1 - Parameter 1</font>
+<font color="#B22222"># param2 - Parameter 2</font>
+<font color="#B22222">#</font>
+<font color="#B22222"># return: describe the returned value</font>
+<font color="#B22222"># ------------------------------------------------------------------------</font>
+<strong><font color="#4169E1">sub method </font></strong>{
+<font color="#4169E1">    my</font> ($Self, $param1, $param2)   = @_;
+
+    $param1 = <font color="#228B22">'undef'</font><font color="#4169E1"> unless</font> (defined($param1));
+    $param2 = <font color="#228B22">'undef'</font><font color="#4169E1"> unless</font> (defined($param2));
+    
+    $Self-&gt;trace(<font color="#228B22">"</font>$Self<font color="#228B22">-&gt;{'Class'}-&gt;method (</font>$param1<font color="#228B22">, </font>$param2<font color="#228B22">)"</font>);
+<font color="#B22222">    # Something to do</font>
+}
+
+1;
+</pre>
+</body>
+
+</html>

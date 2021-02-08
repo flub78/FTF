@@ -1,0 +1,22 @@
+window_sizes 1676 991 450 1220 770 146
+diagrams
+  active  classdiagram_ref 128042 // Global view
+    879 622 100 4 0 0
+end
+show_stereotypes
+selected 
+package_ref 129 // Protocol
+open
+  class_ref 128042 // Message
+  class_ref 128170 // Protocol::Utilities
+  class_ref 128298 // Protocol::Type
+  class_ref 128554 // Protocol::Integer
+  class_ref 128682 // Protocol::String
+  class_ref 128810 // Protocol::HexaString
+  class_ref 128938 // Protocol::List
+  class_ref 129066 // Protocol::Record
+  class_ref 129194 // Protocl::TLV_Record
+  class_ref 129322 // Protocol::TLV_List
+  class_ref 129450 // Protocol::TLV_Alternative
+end
+end

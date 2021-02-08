@@ -1,0 +1,102 @@
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : TestId = TEST3
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Goals = This test checks that the software works.
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : 
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : The programs is started, then several data sets are submitted.
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Each output are checks for conformity.
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : 
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : AcceptationCriteria = Self reporting test
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : 
+2009/11/27 19:11:48 WARN Tests.Doc:426 Tests.Doc : Script path = /media/disk/Perl/PerlTestTools/examples/test_suite/test1.pl
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Script basename = test1
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Configuration file name = /media/disk/Perl/PerlTestTools/examples/test_suite//test1.ini
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Log file = results/logs/TEST3.log
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : log4perl configuration file = /media/disk/Perl/PerlTestTools/templates/log4perl.conf
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Logger = log4perl.logger.Tests
+2009/11/27 19:11:48 WARN Tests.Doc:426 Tests.Doc : Date = ven nov 27 19:11:48 CET 2009
+2009/11/27 19:11:48 WARN Tests.Doc:426 Tests.Doc : User = frederic
+2009/11/27 19:11:48 WARN Tests.Doc:426 Tests.Doc : OS = linux
+2009/11/27 19:11:48 WARN Tests.Doc:426 Tests.Doc : Command line Arguments = -TestId TEST3 -Synopsis T1, performance, 10 iterations -output results/logs -iteration 10 -perf
+2009/11/27 19:11:48 WARN Tests.Doc:426 Tests.Doc : Configuration =
+	verbose =>	0
+	fail =>	0
+	match =>
+	requirements =>
+	directory =>	.
+	outputDirectory =>	results/logs
+	memory =>	0
+	synopsis =>	T1, performance, 10 iterations
+	pid =>	0
+	skip =>
+	iteration =>	10
+	help =>	0
+	testId =>	TEST3
+	performance =>	1
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Synopsis = T1, performance, 10 iterations
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Keywords = AIX, TRU64, Linux, REQ47, REQ56, CR423
+2009/11/27 19:11:48 INFO Tests.Doc:426 Tests.Doc : Requirements = REQ4, REQ6
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.0015718936920166, Iteration = 1
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000930070877075195, Iteration = 2
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.00121307373046875, Iteration = 3
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000935792922973633, Iteration = 4
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000908136367797852, Iteration = 5
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000997781753540039, Iteration = 6
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000926971435546875, Iteration = 7
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000901937484741211, Iteration = 8
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000951051712036133, Iteration = 9
+2009/11/27 19:11:48 INFO Tests.Traces:426 Tests.Traces : TestMain
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 1
+2009/11/27 19:11:48 WARN Tests.Traces:426 Tests.Traces : Subsequent method may fail
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED Subtest 2, fails when required by parameter
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED expected error correctly reported: exception raised at test1.pl line 122.
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : IterationTime = 0.000926971435546875, Iteration = 10
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : TotalTime = 0.0127239227294922
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : Iterations = 10
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : AverageIterationTime = 0.00127239227294922
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : MaxIterationTime = 0.0015718936920166
+2009/11/27 19:11:48 INFO Tests.Counters:426 Tests.Counters : MinIterationTime = 0.000901937484741211
+2009/11/27 19:11:48 WARN Tests.Checks:426 Tests.Checks : PASSED global TEST3, success=30, failures=0

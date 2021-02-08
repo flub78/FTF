@@ -1,0 +1,33 @@
+Title: FTF Evolutions
+#####################
+
+    Perl language has evolved since the latest
+    version of FTF and new modules have been developed
+    which take in several of the modules of FTF.
+    
+    I also need to rework on the event loop associated 
+    with TCP/IP networking to adpat it to heavy network
+    load.
+    
+    So the future evolutions should be.
+    
+    1) Replacement of the event loop by POE. Two approaches are possible, to
+    keep the current interface and to built it above POE, or
+    to change the application themselves to use POE directly.
+    
+    The two layers are almost at the same level of abstraction, so
+    build one on top of the other cannot be justified only for technical
+    reasons. And the quantity of code which relies on FTF::Events is not so big.
+    
+    So the best approach is probably to develop a set of small programs,
+    illustrating most of the Event features, and then to use them to post
+    the existing tests with the new paradigm.
+    
+    I need:
+        - Binary and ASCII tcp/ip servers and clients
+        - Binary and ASCII udp/ip networking
+        - File Management
+        - Time management and sockets timeout
+    
+    2) Replacement of the Object model by Moose.
+   

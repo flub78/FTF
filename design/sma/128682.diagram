@@ -1,0 +1,90 @@
+format 63
+
+statecanvas 128170 state_ref 130218 // Processing
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 110 164 2000 215 134
+end
+statecanvas 128426 state_ref 130346 // sub1
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 147 209 2005 55 35
+end
+statecanvas 128554 state_ref 130474 // sub2
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 241 209 2005 54 35
+end
+pseudostatecanvas 129194 pseudostate_ref 128042 // entry_point
+   xyzwh 56 217 3005 19 19 label_xy 52 236
+end
+statecanvas 129450 state_ref 128042 // Test
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 32 75 1979 618 354
+end
+statecanvas 129962 state_ref 128298 // Phase2
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 378 134 1990 232 200
+end
+pseudostatecanvas 130218 pseudostate_ref 128298 // final
+   xyz 682 349 2000
+end
+statecanvas 130602 state_ref 128682 // T1
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 407 186 2005 40 35
+end
+statecanvas 130730 state_ref 128810 // T2
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 535 185 2005 40 35
+end
+statecanvas 130858 state_ref 128938 // T3
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 461 277 2005 40 35
+end
+transitioncanvas 128938 transition_ref 128170 // <transition>
+  
+  from ref 128554 z 2004 to point 222 255
+  line 129066 z 2004 to ref 128426
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 129706 transition_ref 128042 // <transition>
+  
+  from ref 128426 z 2004 stereotype "<<Event1>>" xyz 187 263 3000 to ref 128554
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 129834 transition_ref 128298 // <transition>
+  
+  from ref 129194 z 2004 to ref 128426
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 130986 transition_ref 128554 // <transition>
+  
+  from ref 128554 z 2004 to ref 130602
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 131114 transition_ref 128682 // <transition>
+  
+  from ref 130602 z 2004 stereotype "<<A>>" xyz 469 202 3000 to ref 130730
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 131242 transition_ref 128810 // <transition>
+  
+  from ref 130730 z 2004 stereotype "<<A>>" xyz 512 244 3000 to ref 130858
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 131370 transition_ref 128938 // <transition>
+  
+  from ref 130858 z 2004 to ref 130602
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 132010 transition_ref 129322 // <transition>
+  geometry VH
+  
+  from ref 130858 z 1999 stereotype "<<completed>>" xyz 468 377 3000 to point 478 359
+  line 132522 z 1999 to ref 130218
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 132394 transition_ref 130474 // <transition>
+  
+  from ref 129450 z 1984 stereotype "<<Timeout>>" xyz 655 252 3000 to point 734 282
+  line 132650 z 1984 to ref 130218
+  write_horizontally default show_definition default drawing_language default
+end
+end

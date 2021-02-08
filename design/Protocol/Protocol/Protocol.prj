@@ -1,0 +1,1124 @@
+format 63
+"Protocol"
+  revision 2
+  modified_by 42 "frederic"
+
+
+  
+  // class settings
+  default_attribute_visibility private default_relation_visibility private default_operation_visibility public
+  //class diagram settings
+  draw_all_relations yes hide_attributes no hide_operations no show_members_full_definition no show_members_visibility no show_members_stereotype no show_members_multiplicity no show_members_initialization no show_attribute_modifiers no member_max_width 127 show_parameter_dir yes show_parameter_name yes package_name_in_tab no class_drawing_mode natural drawing_language uml show_context_mode no auto_label_position yes show_relation_modifiers no show_infonote no shadow yes show_stereotype_properties no
+  //use case diagram settings
+  package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes class_drawing_mode actor shadow yes show_stereotype_properties no
+  //sequence diagram settings
+  show_full_operations_definition no write_horizontally yes class_drawing_mode natural drawing_language uml draw_all_relations yes shadow yes show_stereotype_properties no
+  //collaboration diagram settings
+  show_full_operations_definition no show_hierarchical_rank no write_horizontally yes drawing_language uml package_name_in_tab no show_context no draw_all_relations yes shadow yes show_stereotype_properties no
+  //object diagram settings
+   write_horizontally yes package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes shadow yes show_stereotype_properties no
+  //component diagram settings
+  package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes shadow yes
+  draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no
+  //deployment diagram settings
+  package_name_in_tab no show_context no write_horizontally yes auto_label_position yes draw_all_relations yes shadow yes
+  draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no
+  //state diagram settings
+  package_name_in_tab no show_context no auto_label_position yes write_trans_label_horizontally yes show_trans_definition no draw_all_relations yes shadow yes
+  show_activities yes region_horizontally yes drawing_language uml show_stereotype_properties no
+  //activity diagram settings
+  package_name_in_tab no show_context no show_opaque_action_definition no auto_label_position yes write_flow_label_horizontally no draw_all_relations yes shadow yes
+  show_infonote yes drawing_language uml show_stereotype_properties no
+  
+  class_color yellow duration_color transparent continuation_color gray note_color blue fragment_color transparent subject_color transparent usecase_color yellow package_color transparent component_color green artifact_color green deploymentnode_color gray state_color yellow stateaction_color transparent activity_color transparent activityregion_color transparent activitypartition_color transparent activityaction_color transparent parameterpin_color white 
+  font_size 8
+  diagram_format A4
+
+  mark_for_import
+  
+  ncouples 1
+  key "html dir" value "f:/SVN/PerlTestTools/doc/Protocol/html/"
+  classview 128042 "Protocol Parsing Support Classes"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    classdiagram 128042 "Global view"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 128042 "Message"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "#       Messages are generic containers for complex structured data.
+#       They contain scalar, lists and records, the list and records can
+#       themselves contain other lists and records.
+#
+#       In Perl it is  a very thin layer on top of the classical
+#       data structure (combination of references on hashes and list).
+#
+# (Start code)
+#	my $msg = new Message (value => {
+#		PPID => 0x47,
+#		OP_LIST => [
+#			{MOP => 3, DATE => {MONTH => 1, DAY => 1, YEAR => 2009}},
+#			{MOP => 4, DATE => {MONTH => 12, DAY => 25, YEAR => 2009}}
+#		]
+#	});
+# (end)
+#
+#       Messages are the result of the CODECs decode method and the input
+#       parameter of the encode routine. Messages can also contain information
+#       on the decoding process, errors number and description, type or codec
+#       use for the analysis, etc.
+#
+#       One of the main method on messages is the value method which returns
+#       the scalar value or is an accessor to subcomponent. The value
+#       method can have a subcomponent identifiers, which are index for lists
+#       and a field name for records. The identifier supports a dotted
+#       notation to access sub-components.
+#
+#       Examples of sub-component identifiers:
+#
+#		\"\" or undef - access to scalar values for scalar messages.
+#       4 - integer values are used as lists indexes
+#       \"TR_NUMBER\" - field name
+#       \"DATE.DAY\" - compound accessor
+#       \"OP_LIST.[1].DATE.SECOND\" - complex access
+#
+# The value method can be used to get or change the value of a sub-component.
+#
+# (Start code)
+# # access a value
+# my $value = $msg->value('OP_LIST.[1].DATE.MONTH');
+#
+# # change a value
+# $msg->value('OP_LIST.[1].DATE.MONTH', 12);
+# (end)
+#
+# Their is curently no field validity control mechanism, so be cautious. If
+# it is a problem I'll add some support to perform field checking.
+"
+      operation 128042 "value"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "id" explicit_type "string"
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${p0}${v0}${)}:
+${docstring}${body}
+"
+	
+	comment "# This method returns the value of the message or any of its subcomponent.
+# Subcomponents are element for lists, fields for records. When the 
+# message is a structured message, combination of various lists and 
+# records, it is possible to adress any sub-elements at any level.
+# It returns a scalar when the sub-component indicator identifies a scalar
+# or a reference to a list when the item is a list, or a reference to a hash
+# when the item is a record. It returns undef when the item subcomponent does
+# not exist.
+#
+# The following example explains the syntax supported for sub-components. The 
+# message is a record with a component named OP_LIST, which is a list with 
+# at least two elements. These elements are date records which contain
+# at least a filed named MONTH.
+#
+# (Start code)
+# # access a value
+# my $value = $msg->value('OP_LIST.[1].DATE.MONTH');
+#
+# # change a value
+# $msg->value('OP_LIST.[1].DATE.MONTH', 12);
+# (end)
+#
+# Parameters:
+# id - sub-element identifier
+# new - new value"
+      end
+
+      operation 128170 "errors"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Read or set the number of parsing errors. "
+      end
+
+      operation 128298 "error_description"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "description" explicit_type "string"
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${p0}${v0}${)}:
+${docstring}${body}
+"
+	
+	comment "# This is the accessor to the error description. The error description is big
+# string containing one or several lines. During parsing of complex types
+# errors are propagated to the nesting component. It means that if
+# you get an error while parsing the field of a record, the error
+# description will be concatenated in the parent error descriptor. The
+# total error number of a message must be equal to the number of 
+# errors of the sub-components.
+#
+# Parameters:
+#    value - when supplied set the error_description of the message
+"
+      end
+
+      operation 128426 "add_error"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Add a new error to the message
+#
+# Parameters:
+# description - string to describe the error
+# nb - number or errors to add (default = 1). Can be more than one to merge errors from sub components"
+      end
+
+      operation 128554 "add_field"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "field" explicit_type "string"
+	  param in name "value" explicit_type ""
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${p0}${v0}, ${p1}${v1}${)}:
+${docstring}${body}
+"
+	
+	comment "# Add a new field and its value. If the field does not exist it is created.
+# if it already exists and is a scalar, it is replaced by a list containg
+# the two values. If it is already a list, the new value is added to the list
+#
+# Parameters:
+#    $field - field name
+#    $value - value for the field
+"
+      end
+
+      operation 128682 "dumpdetail"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "detail" explicit_type "boolean"
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${p0}${v0}${)}:
+${docstring}${body}
+"
+	
+	comment "# Returns an ASCII image of the message. When details are required all 
+# information about the message is displayed.
+#
+# When no details are required the dump method returns a string that can be
+# cut and past to encode again the message.
+#
+# Parameters:
+#    $detail - boolean
+"
+      end
+
+      operation 128810 "field_list"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "id" explicit_type "string"
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${p0}${v0}${)}:
+${docstring}${body}
+"
+	
+	comment "# Returns the list of field of a message or a sub-element. The specified level
+# musth be a record.
+#
+# Parameters:
+# id - sub-element identifier (must be a record)
+"
+      end
+
+      operation 128938 "number_of"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Cardinality a message list sub-component. Returns the number of elements
+# in lists, the number of fields for records, etc.
+"
+      end
+
+      operation 129066 "kind"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Returns the kind of a message or a message subcomponent. It can be
+# SCALAR | ARRAY | RECORD.
+#
+# Parameters:
+# id - sub-element identifier
+"
+      end
+
+      classrelation 129194 // <association>
+	relation 129194 ----
+	  a role_name "" private
+	    python "${comment}${self}${name} = ${value}
+"
+	    classrelation_ref 129194 // <association>
+	  b role_name "" private
+	    python "${comment}${self}${name} = ${value}
+"
+	    classrelation_ref 129322 // <association>
+      end
+    end
+
+    class 128170 "Protocol::Utilities"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 129194 "bin2hexa"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Converts a binary buffer into an hexadecimal representation"
+      end
+
+      operation 129322 "hexa2bin"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Converts an hexadecimal representation into a binary buffer"
+      end
+
+      operation 129450 "at_offset"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# byte access into a binary buffer"
+      end
+    end
+
+    class 128298 "Protocol::Type"
+      abstract visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "#    In this context a type has various attributes; size, number and structure of sub-components, etc.
+#
+#    Root class for the protocol management layer in this context a type has 
+#    various attributes; size, number and structure of sub-components, etc. 
+#    This class will be derived for various scalar types and lists and records.
+#    
+#    Types must contain enough information to control encoding or decoding 
+#    of messages. They can be used directly but are likely 
+#    generated by the parsing of a formal protocol specification. Once
+#    the types database generated for a protocol, the databse is used either
+#    directly by a script or to generate encoding or decoding routine
+#    in a code generation phase.
+#
+#    This class is really the corner stone of this job. The main idea is really
+#    to encapsulate the types layout inside this data. It is a purely
+#    declarative task, and then to not have to worry any more about the physical
+#    structure of the data.
+#
+#    This job is the third implementation after two succesful ones (the Ada
+#    message generator and the Tcl Protocol handling layer)
+#
+#    The point is really about binary buffer parsing and generation. The purpose 
+#    of this job is to fill the gap between the binary buffer structure 
+#    specification and the most convenient API to handle data compliant with
+#    this structure. The Tcl approach was really 
+#    succesful. The parser error reporting was not perfect and there was no 
+#    code generation but these two points could have been improved, so it 
+#    is possible to just port this design. However I wonder if alternative 
+#    approach like binary regular expressions pattern matching could not be as
+#    effective. 
+#
+# Section: Types and Messages versus classes and objects
+#
+#       The point of this development is really to encapsulate all knowledge
+#       about the protocol format into some program database AND NOT INTO
+#       a class hierarchy structure.
+#       For exemple if you have a Date record made of a Year, Month and Day fields
+#       you need something to contain the date definition.
+#       Something that we have often done and that I would avoid, at
+#       least without automated code generation, is to derive a Date class
+#       from the record class and to define the field list for the Date. The only 
+#       difference between the record class and the date class is that the record class
+#       is able to handle any record and the date class only date records.
+#       The reason for which I would avoid the approach is that it generates
+#       thousand of lines of code that you have to maintain even for relatively 
+#       simple protocols (you generate on class for each message type).
+#
+# Types naming:
+#
+#       Types are identified by a name. Eventually it can be a complex 
+#       structured name if we want to support name spaces. So the type
+#       constructor will take this name as input parameter and the class
+#       will maintain a mechanism to retreive a reference to the object
+#       from the name. I think that the most currently used convention
+#       to build structure names is to use '::' double colomns as 
+#       sepearators. So we will use that, but in fact names are just
+#       strings so you can use whatever convention that you want.
+#
+# Section: Encode and Decode profile
+#
+#       The input parameter of an encode method is either
+#       - a scalar for scalar types
+#       - a reference to a list for list types
+#       - a reference to a hash for record types.
+#
+#       The result of a decode routine is a message from the Message class. Messages are objects
+#       with a filed named value which has the same semantic than the encode input parameter.
+#       Others fields are used to keep information about the decoding success, error number and error
+#       messages, sizes, etc.
+#
+#       At some point during implementation I used Messages as well as input parameters, but it generates
+#       an over-head that it is difficult to justify. Perhaps that I could have two versions of encode ??
+#
+# Section: Error Management Policiy
+#
+#       It seams resonable to treat in different ways encoding and decoding errors. During
+#       encoding you are supposed to know what you are doing and you should provide data
+#       compatible to the type that you are using. So errors are treated by exception.
+#
+#       During decoding it is more natural to sometime attempt to decode invalid data. So I have currently 
+#       decided to store errors and error description inside the returned messages. That way decoding code
+#       shoudl never raise exceptions, exception remains exceptional (this probably comes from my
+#       former Ada programer life). It implies that usser must check the error status before to use
+#       a message. It has also the advantage that partial values can be stored in messages. For example
+#       when you detect an error while parsing the end of the message, you can have already stored
+#       in the message the first fields. That may help to build more meaningful error messages.
+#
+# Truncation or error: 
+#
+#       I have to decide what to do when more data than required is supplied for encoding. For example
+#       20 bytes are supplied to fit into a 16 bytes string. FIrst I'll treat that as an error, just to
+#       be safe. I'll relax the control if it makes the usage more difficult.
+#      
+"
+      operation 130474 "declare"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "#   Alias for new. When you do not care for the returned object and intend
+#   to rely on access to type by name (usage of Encode and Decocde). The
+#   dclare routine makes the code mode natural. You just declare new types.
+"
+      end
+
+      operation 129578 "encode"
+	abstract cpp_virtual public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Encode a value or a list of values according to the type. This method
+# is virtual and each type implementation will have to provide one.
+#
+# Return: a binary buffer
+"
+      end
+
+      operation 129706 "decode"
+	abstract cpp_virtual public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Decode a binary buffer and return a message. This method
+# is virtual and each type implementation will have to provide one.
+"
+      end
+
+      operation 129834 "Encode"
+	class_operation public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Encode using a type name. The Type class maintain a table of all the
+# existing types by name. It is possible to use the method to encode
+# a list of value without having access to a type object.
+#
+# Return: a binary buffer"
+      end
+
+      operation 129962 "Decode"
+	class_operation public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Decode a binary buffer and return a message using the type name
+# instead of having direct access to the object.
+"
+      end
+
+      operation 130090 "TypeList"
+	class_operation public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Return the list of non anonymous types"
+      end
+
+      operation 130218 "DefinedType"
+	class_operation public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Return true when the type has already been defined
+"
+      end
+
+      operation 130346 "TypeFromName"
+	class_operation public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Return a type from its name
+"
+      end
+
+      operation 130602 "size"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "# Sets or returns the size of the type in bytes. The size is undef when the type
+# is unbounded or contain unbounded elements. It has beed considered than bytes
+# are more convenients than bits for sizes. Eventually some methods to extract
+# bitfields from byte streams will be provided.
+"
+      end
+
+      classrelation 129322 // <association>
+	relation_ref 129194 // <association>
+      end
+    end
+
+    class 128426 "Protocol::ScalarType"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128042 // <generalisation>
+	relation 128042 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128042 // <generalisation>
+	  b parent class_ref 128298 // Protocol::Type
+      end
+    end
+
+    class 128554 "Protocol::Integer"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128170 // <generalisation>
+	relation 128170 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128170 // <generalisation>
+	  b parent class_ref 128426 // Protocol::ScalarType
+      end
+
+      attribute 128042 "size"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Integer size, 1, 2, 4 or 8 bytes"
+      end
+
+      attribute 128170 "endianess"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 128298 "signed"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      operation 130730 "size"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 130858 "endianness"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 130986 "signed"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+    end
+
+    class 128682 "Protocol::String"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128298 // <generalisation>
+	relation 128298 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128298 // <generalisation>
+	  b parent class_ref 128426 // Protocol::ScalarType
+      end
+
+      attribute 128426 "size"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+    end
+
+    class 128810 "Protocol::HexaString"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128426 // <generalisation>
+	relation 128426 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128426 // <generalisation>
+	  b parent class_ref 128426 // Protocol::ScalarType
+      end
+
+      attribute 128554 "size"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+    end
+
+    class 128938 "Protocol::List"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128554 // <generalisation>
+	relation 128554 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128554 // <generalisation>
+	  b parent class_ref 128298 // Protocol::Type
+      end
+
+      attribute 128682 "elementTypeName"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 128810 "numberOfElements"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 128938 "sizeMax"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+    end
+
+    class 129066 "Protocol::Record"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128810 // <generalisation>
+	relation 128810 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128810 // <generalisation>
+	  b parent class_ref 128298 // Protocol::Type
+      end
+
+      attribute 129066 "filed_descriptors"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 129194 "parent"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      operation 131114 "fields"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 131242 "numberOfFields"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+    end
+
+    class 129194 "Protocl::TLV_Record"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128682 // <generalisation>
+	relation 128682 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128682 // <generalisation>
+	  b parent class_ref 129066 // Protocol::Record
+      end
+
+      attribute 129322 "tag_length"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 129450 "length_length"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+    end
+
+    class 129322 "Protocol::TLV_List"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128938 // <generalisation>
+	relation 128938 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128938 // <generalisation>
+	  b parent class_ref 128298 // Protocol::Type
+      end
+
+      attribute 129578 "tag_type"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 129706 "length_type"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 129834 "elements"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      operation 131370 "numberOfElements"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+    end
+
+    class 129450 "Protocol::TLV_Alternative"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 129962 "tag_type"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 130090 "length_type"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 130218 "choices"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      classrelation 130602 // <generalisation>
+	relation 130474 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 130602 // <generalisation>
+	  b parent class_ref 128298 // Protocol::Type
+      end
+    end
+
+    class 130602 "Protocol::TLV_Message"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 131370 "tag_type"
+	private explicit_type ""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 131498 "length_type"
+	private explicit_type ""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 131626 "elements"
+	private explicit_type ""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 131754 "fields"
+	private explicit_type ""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      classrelation 130474 // <generalisation>
+	relation 130346 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 130474 // <generalisation>
+	  b parent class_ref 128298 // Protocol::Type
+      end
+    end
+  end
+end

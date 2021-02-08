@@ -1,0 +1,216 @@
+format 63
+"SMA"
+  revision 3
+  modified_by 42 "frederic"
+
+
+  
+  // class settings
+  default_attribute_visibility private default_relation_visibility private default_operation_visibility public
+  //class diagram settings
+  draw_all_relations yes hide_attributes no hide_operations no show_members_full_definition no show_members_visibility no show_members_stereotype no show_members_multiplicity no show_members_initialization no show_attribute_modifiers no member_max_width 127 show_parameter_dir yes show_parameter_name yes package_name_in_tab no class_drawing_mode natural drawing_language uml show_context_mode no auto_label_position yes show_relation_modifiers no show_infonote no shadow yes show_stereotype_properties no
+  //use case diagram settings
+  package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes class_drawing_mode actor shadow yes show_stereotype_properties no
+  //sequence diagram settings
+  show_full_operations_definition no write_horizontally yes class_drawing_mode natural drawing_language uml draw_all_relations yes shadow yes show_stereotype_properties no
+  //collaboration diagram settings
+  show_full_operations_definition no show_hierarchical_rank no write_horizontally yes drawing_language uml package_name_in_tab no show_context no draw_all_relations yes shadow yes show_stereotype_properties no
+  //object diagram settings
+   write_horizontally yes package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes shadow yes show_stereotype_properties no
+  //component diagram settings
+  package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes shadow yes
+  draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no
+  //deployment diagram settings
+  package_name_in_tab no show_context no write_horizontally yes auto_label_position yes draw_all_relations yes shadow yes
+  draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no
+  //state diagram settings
+  package_name_in_tab no show_context no auto_label_position yes write_trans_label_horizontally yes show_trans_definition no draw_all_relations yes shadow yes
+  show_activities yes region_horizontally yes drawing_language uml show_stereotype_properties no
+  //activity diagram settings
+  package_name_in_tab no show_context no show_opaque_action_definition no auto_label_position yes write_flow_label_horizontally no draw_all_relations yes shadow yes
+  show_infonote yes drawing_language uml show_stereotype_properties no
+  
+  class_color yellow duration_color transparent continuation_color gray note_color blue fragment_color transparent subject_color transparent usecase_color yellow package_color transparent component_color green artifact_color green deploymentnode_color gray state_color yellow stateaction_color transparent activity_color transparent activityregion_color transparent activitypartition_color transparent activityaction_color transparent parameterpin_color white 
+  font_size 10
+  diagram_format A4
+
+  mark_for_import
+  
+  package_ref 128042 // Nested
+
+  usecaseview 128042 "Static Model"
+    //use case diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    state 131626 "Simple"
+      stereotype "machine"
+      statediagram 129834 "SimpleDiagram"
+	package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+	show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+	size A4
+      end
+
+      pseudostate 129450 entry_point "Start"
+	transition 130602 "<transition>"
+	  stereotype "A"
+	  on state_ref 131754 // State1
+	  external 
+	end
+      end
+
+      pseudostate 129578 final 
+      end
+
+      state 131754 "State1"
+	transition 130730 "<transition>"
+	  stereotype "B"
+	  on state_ref 131882 // State2
+	  external 
+	end
+      end
+
+      state 131882 "State2"
+	transition 130858 "<transition>"
+	  stereotype "A"
+	  on state_ref 132010 // State3
+	  external 
+	end
+
+	transition 131114 "<transition>"
+	  stereotype "B"
+	  on pseudostate_ref 129578 // final
+	  external 
+	end
+      end
+
+      state 132010 "State3"
+	transition 130986 "<transition>"
+	  stereotype "A"
+	  on state_ref 131754 // State1
+	  external 
+	end
+
+	transition 131242 "<transition>"
+	  stereotype "B"
+	  on pseudostate_ref 129578 // final
+	  external 
+	end
+      end
+    end
+
+    state 128042 "Test"
+      stereotype "machine"
+      statediagram 128682 "SMADiagram"
+	package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations no shadow default
+	show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+	size A4
+      end
+
+      state 128298 "Phase2"
+	stereotype "submachine"
+	state 128682 "T1"
+	  transition 128682 "<transition>"
+	    stereotype "A"
+	    on state_ref 128810 // T2
+	    external 
+	  end
+	end
+
+	state 128810 "T2"
+	  transition 128810 "<transition>"
+	    stereotype "A"
+	    on state_ref 128938 // T3
+	    comment "Transition from T2 to T3"
+	    external 
+	  end
+	end
+
+	state 128938 "T3"
+	  transition 128938 "<transition>"
+	    on state_ref 128682 // T1
+	    external 
+	  end
+
+	  transition 129322 "<transition>"
+	    stereotype "completed"
+	    on pseudostate_ref 128298 // final
+	    external 
+	  end
+	end
+      end
+
+      state 130218 "Processing"
+	state 130346 "sub1"
+	  transition 128042 "<transition>"
+	    stereotype "Event1"
+	    on state_ref 130474 // sub2
+	    external 
+	  end
+	end
+
+	state 130474 "sub2"
+	  transition 128170 "<transition>"
+	    on state_ref 130346 // sub1
+	    external 
+	  end
+
+	  transition 128554 "<transition>"
+	    on state_ref 128682 // T1
+	    external 
+	  end
+	end
+      end
+
+      pseudostate 128042 entry_point "Start"
+	transition 128298 "<transition>"
+	  on state_ref 130346 // sub1
+	  external 
+	end
+      end
+
+      pseudostate 128298 final 
+      end
+
+      transition 130474 "<transition>"
+	stereotype "Timeout"
+	on pseudostate_ref 128298 // final
+	external 
+      end
+    end
+
+    state 132138 "Triggers"
+      stereotype "machine"
+      statediagram 129962 "TriggerDiagram"
+	package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+	show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+	size A4
+      end
+
+      state 132266 "OnExitTriggers"
+	state 132394 "Départure"
+	  transition 131370 "<transition>"
+	    on state_ref 132650 // Arrival
+	    external 
+	  end
+	end
+      end
+
+      state 132522 "OnEntryTriggers"
+	state 132650 "Arrival"
+	end
+      end
+    end
+  end
+
+end

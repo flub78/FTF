@@ -1,0 +1,14 @@
+Title: Protocol Management Design
+
+
+Classes main responsabilites:
+
+	Type - contains everything about the types layout and
+	attributs, it describes a kind of objects.
+
+	Message - contains a message of a given type, it is a value.
+
+(see Classes.png)
+
+End of design page.
+
